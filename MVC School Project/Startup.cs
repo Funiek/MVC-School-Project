@@ -10,7 +10,6 @@ namespace MVC_School_Project
     {
         public void Configuration(IAppBuilder app)
         {
-            ConfigureAuth(app);
         }
     }
 }
