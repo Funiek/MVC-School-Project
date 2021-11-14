@@ -1,0 +1,36 @@
+﻿@using KOM_P.Models
+@model List<KOM_P.Models.Product>
+@{
+    ViewBag.Title = "Strona Główna";
+}
+
+<div class="banner">
+    <a href="#"><img src="~/img/WYSIWYG/index-banner.jpg" /></a>
+</div>
+
+<div class="promo-list">
+    <div class="promo-list-title">Polecamy</div>
+    <div class="promo-list-wrapper">
+        <div class="row">
+            @foreach (var promoProduct in Model)
+            {
+                <div class="col-xs-12 col-md-3 col-lg-3">
+                    <div class="product">
+                        <div class="product-img">
+                            <a href="#"><img src="~/img/Products/@Html.Raw(promoProduct.SKU+".jpg")" alt="Zdjęcie" /></a>
+                        </div>
+                        <div class="product-title">
+                            @Html.Raw(promoProduct.Name)
+                        </div>
+                        <div class="product-price">
+                            @Html.Raw(promoProduct.Price)&nbsp;zł
+                        </div>
+                        <div class="product-special-price">
+                            99,99&nbsp;zł
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

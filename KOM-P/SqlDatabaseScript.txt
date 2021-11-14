@@ -1,0 +1,79 @@
+﻿CREATE TABLE [dbo].[Category] (
+    [Id]       INT          NOT NULL,
+    [ParentId] INT          NULL,
+    [Name]     VARCHAR (50) NOT NULL,
+    PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+CREATE TABLE [dbo].[Product] (
+    [Id]            INT             NOT NULL,
+    [CategoryId]    INT             NOT NULL,
+    [DescriptionId] INT             NULL,
+    [DateOfAdding]  DATE            NULL,
+    [ForPromo]      BIT             NULL,
+    [Visible]       BIT             NULL,
+    [SKU]           VARCHAR (100)   NULL,
+    [Name]          VARCHAR (100)   NULL,
+    [Price]         DECIMAL (20, 2) NULL,
+    PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+CREATE TABLE [dbo].[User] (
+    [Id]           INT           NOT NULL,
+    [Login]        VARCHAR (30)  NOT NULL,
+    [PasswordHash] VARCHAR (64)  NOT NULL,
+    [Permission]   BIT           NULL,
+    [Email]        VARCHAR (100) NULL,
+    PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+CREATE PROCEDURE GetUser
+@login VARCHAR(100),
+@password VARCHAR(64)
+AS
+SELECT TOP 1 * FROM dbo.[User]
+WHERE Login=@login AND PasswordHash=@password
+
+CREATE PROCEDURE SelectAllCategories
+AS
+SELECT * FROM [Category]
+
+CREATE PROCEDURE SelectAllProducts
+AS
+SELECT * FROM Product
+
+CREATE PROCEDURE SelectAllUsers
+AS
+SELECT * FROM [User]
+
+CREATE PROCEDURE SelectLastCategory
+AS
+SELECT TOP 1 * FROM [Category]
+ORDER BY Id DESC
+
+CREATE PROCEDURE SelectLastProduct
+AS
+SELECT TOP 1 * FROM [Product]
+ORDER BY Id DESC
+
+CREATE PROCEDURE SelectLastUser
+AS
+SELECT TOP 1 * FROM [User]
+ORDER BY Id DESC
+
+CREATE PROCEDURE SelectPromoProducts
+@count int
+AS
+SELECT TOP (@count) * FROM Product
+ORDER BY Id ASC
+
+INSERT INTO [dbo].[Product] ([Id], [CategoryId], [DescriptionId], [DateOfAdding], [ForPromo], [Visible], [SKU], [Name], [Price]) VALUES (1, 1, 1, N'2021-11-13', 1, 1, N'INTEL-I5-10600K', N'Intel I5 10600k', CAST(1299.00 AS Decimal(20, 2)))
+INSERT INTO [dbo].[Product] ([Id], [CategoryId], [DescriptionId], [DateOfAdding], [ForPromo], [Visible], [SKU], [Name], [Price]) VALUES (2, 1, 2, N'2021-11-13', 1, 1, N'INTEL-I7-10700K', N'Intel I7 10700k', CAST(1699.99 AS Decimal(20, 2)))
+INSERT INTO [dbo].[Product] ([Id], [CategoryId], [DescriptionId], [DateOfAdding], [ForPromo], [Visible], [SKU], [Name], [Price]) VALUES (3, 1, 3, N'2021-11-13', 1, 1, N'AMD-R7-3700X', N'AMD Ryzen 7 3700X', CAST(1899.99 AS Decimal(20, 2)))
+INSERT INTO [dbo].[Product] ([Id], [CategoryId], [DescriptionId], [DateOfAdding], [ForPromo], [Visible], [SKU], [Name], [Price]) VALUES (4, 1, 4, N'2021-11-13', 1, 1, N'AMD-R9-5950X', N'AMD Ryzen 9 5950X', CAST(3213.33 AS Decimal(20, 2)))
+INSERT INTO [dbo].[Product] ([Id], [CategoryId], [DescriptionId], [DateOfAdding], [ForPromo], [Visible], [SKU], [Name], [Price]) VALUES (5, 1, 5, N'2021-11-10', 1, 1, N'AMD-R5-1600', N'AMD Ryzen 5 1600', CAST(521.00 AS Decimal(20, 2)))
+INSERT INTO [dbo].[Product] ([Id], [CategoryId], [DescriptionId], [DateOfAdding], [ForPromo], [Visible], [SKU], [Name], [Price]) VALUES (6, 1, 6, N'2013-12-05', 1, 1, N'INTEL-C2-Q6600', N'Intel Core 2 QUAD Q6600', CAST(55.00 AS Decimal(20, 2)))
+
+INSERT INTO [dbo].[User] ([Id], [Login], [PasswordHash], [Permission], [Email]) VALUES (1, N'Krzysiek', N'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', 1, N'stopy@gmail.com')
+INSERT INTO [dbo].[User] ([Id], [Login], [PasswordHash], [Permission], [Email]) VALUES (2, N'Maciek', N'8d23cf6c86e834a7aa6eded54c26ce2bb2e74903538c61bdd5d2197997ab2f72', 1, N'maciej@int.pl')
+INSERT INTO [dbo].[User] ([Id], [Login], [PasswordHash], [Permission], [Email]) VALUES (3, N'User', N'04f8996da763b7a969b1028ee3007569eaf3a635486ddab211d512c85b9df8fb', 0, N'dupa@wp.pl')

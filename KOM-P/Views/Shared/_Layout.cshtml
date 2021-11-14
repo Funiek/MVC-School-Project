@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - KOM-P</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.min.css" />
+</head>
+<body>
+    <header>
+        <div class="navbar navbar-default navbar-fixed-top komp-navbar">
+            <div class="nav-wrapper-left">
+                @Html.ActionLink("KOM-P", "Index", "Home", new { area = "" }, new { @class = "navbar-logo" })
+            </div>
+            <div class="nav-wrapper-right">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <div class="float-right">
+                        @Html.ActionLink("Wyloguj", "SignOut", "User")
+                    </div>
+                    <div class="float-right">
+                        Witaj @Html.Raw(User.Identity.Name)
+                    </div>
+                }
+                else
+                {
+                    <div class="float-right">
+                        @Html.ActionLink("Zarejestruj się", "SignUp", "User")
+                    </div>
+                    <div class="float-right">
+                        @Html.ActionLink("Zaloguj się", "SignIn", "User")
+                    </div>
+                }
+            </div>
+        </div>
+    </header>
+    <div class="body-container">
+        @RenderBody()
+    </div>
+    <footer>
+        <div class="container">
+            <p>Maciej Fender & Krzysztof Funkowski &copy; @DateTime.Now.Year - KOM-P</p>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
