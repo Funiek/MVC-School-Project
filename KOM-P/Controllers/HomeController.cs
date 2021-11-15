@@ -1,5 +1,7 @@
 ﻿using KOM_P.Data;
 using KOM_P.Models;
+using KOM_P.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -12,6 +14,12 @@ namespace KOM_P.Controllers
 {
     public class HomeController : Controller
     {
+        public class IndexViewModel
+        {
+            public Product product { get; set; }
+            public string productLink { get; set; }
+        }
+
         private readonly ILogger<HomeController> _logger;
         private StoreDbContext _db;
 
@@ -24,8 +32,25 @@ namespace KOM_P.Controllers
         // GET: Start
         public ActionResult Index()
         {
+            string visited = HttpContext.Session.GetString("Visited");
+            if (visited == null)
+            {
+                _db.IncrementCounter();
+                HttpContext.Session.SetString("Visited", "Yes"); 
+            }
+
+            ViewData["Permission"] = true;
+            List<IndexViewModel> indexViewModels = new List<IndexViewModel>();
+            IndexViewModel index;
             List<Product> products = _db.GetProducts(4);
-            return View(products);
+            foreach (Product product in products)
+            {
+                index = new IndexViewModel();
+                index.product = product;
+                index.productLink = ImageService.GetImage(product.SKU,240,240);
+                indexViewModels.Add(index);
+            }
+            return View(indexViewModels);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

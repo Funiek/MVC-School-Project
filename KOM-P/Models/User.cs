@@ -23,7 +23,7 @@ namespace KOM_P.Models
         [DataType(DataType.Password)]
         [Required(ErrorMessage = "pole 'Password' jest obowiązkowe")]
         [StringLength(64)]
-        public string PasswordHash { get; set; }
+        public byte[] PasswordHash { get; set; }
 
         public bool? Permission { get; set; }
 

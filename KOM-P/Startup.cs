@@ -69,6 +69,9 @@ namespace KOM_P
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute(
+                    name: "admin",
+                    pattern: "Admin/{controller=AdminPanel}/{action=Index}/{id?}");
             });
         }
     }

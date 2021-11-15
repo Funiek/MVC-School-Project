@@ -15,8 +15,6 @@ namespace KOM_P.Data
         DbSet<User> User { get; set; }
 
         public List<Product> GetProducts(int? count);
-
-        public string GetHash(HashAlgorithm hashAlgorithm, string input);
-        public User GetElement(User siteUser);
+        public User GetUser(User siteUser, string password);
     }
 }

@@ -13,6 +13,12 @@ namespace KOM_P.Controllers
 {
     public class UserController : Controller
     {
+        public class SignInViewModel 
+        { 
+            public User user { get; set; }
+            public string password { get; set; }
+        }
+            
         private readonly ILogger<UserController> _logger;
         private StoreDbContext _db;
 
@@ -21,9 +27,10 @@ namespace KOM_P.Controllers
             _db = db;
             _logger = logger;
         }
-        private bool ValidateUser(User user)
+        private bool ValidateUser(SignInViewModel model)
         {
-            User _user = _db.GetElement(user);
+
+            User _user = _db.GetUser(model.user, model.password);
             return (_user != null) ? true : false;
         }
 
@@ -34,13 +41,13 @@ namespace KOM_P.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SignIn(User user)
+        public async Task<IActionResult> SignIn(SignInViewModel model)
         {
-            if(ValidateUser(user))
+            if(ValidateUser(model))
             {
                 var claims = new List<Claim>()
                 {
-                new Claim(ClaimTypes.Name, user.Login)
+                new Claim(ClaimTypes.Name, model.user.Login)
                 };
                 var claimsIdentity = new ClaimsIdentity(claims, "CookieAuthentication");
                 await HttpContext.SignInAsync("CookieAuthentication", new ClaimsPrincipal(claimsIdentity));
@@ -54,9 +61,20 @@ namespace KOM_P.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult SignUp(User user)
+        public async Task<IActionResult> SignUpAsync(SignInViewModel model)
         {
-            return View();
+            _db.CreateUser(model.user, model.password);
+
+            if (ValidateUser(model))
+            {
+                var claims = new List<Claim>()
+                {
+                new Claim(ClaimTypes.Name, model.user.Login)
+                };
+                var claimsIdentity = new ClaimsIdentity(claims, "CookieAuthentication");
+                await HttpContext.SignInAsync("CookieAuthentication", new ClaimsPrincipal(claimsIdentity));
+            }
+            return RedirectToAction("Index", "Home");
         }
 
         public async Task<IActionResult> SignOut()
