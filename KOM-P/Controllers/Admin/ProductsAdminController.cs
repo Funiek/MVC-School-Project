@@ -16,19 +16,20 @@ namespace KOM_P.Controllers.Admin
 
         public ProductsAdminController(StoreDbContext context)
         {
-            ViewData["Admin"] = "Tak";
             _context = context;
         }
 
         // GET: ProductsAdmin
         public async Task<IActionResult> Index()
         {
+            ViewData["Admin"] = "Tak";
             return View(await _context.Product.ToListAsync());
         }
 
         // GET: ProductsAdmin/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            ViewData["Admin"] = "Tak";
             if (id == null)
             {
                 return NotFound();
@@ -47,6 +48,7 @@ namespace KOM_P.Controllers.Admin
         // GET: ProductsAdmin/Create
         public IActionResult Create()
         {
+            ViewData["Admin"] = "Tak";
             return View();
         }
 
@@ -57,6 +59,7 @@ namespace KOM_P.Controllers.Admin
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,CategoryId,DescriptionId,DateOfAdding,ForPromo,Visible,SKU,Name,Price")] Product product)
         {
+            ViewData["Admin"] = "Tak";
             if (ModelState.IsValid)
             {
                 _context.Add(product);
@@ -69,6 +72,7 @@ namespace KOM_P.Controllers.Admin
         // GET: ProductsAdmin/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            ViewData["Admin"] = "Tak";
             if (id == null)
             {
                 return NotFound();
@@ -89,6 +93,7 @@ namespace KOM_P.Controllers.Admin
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,CategoryId,DescriptionId,DateOfAdding,ForPromo,Visible,SKU,Name,Price")] Product product)
         {
+            ViewData["Admin"] = "Tak";
             if (id != product.Id)
             {
                 return NotFound();
@@ -120,6 +125,7 @@ namespace KOM_P.Controllers.Admin
         // GET: ProductsAdmin/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            ViewData["Admin"] = "Tak";
             if (id == null)
             {
                 return NotFound();
@@ -140,6 +146,7 @@ namespace KOM_P.Controllers.Admin
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            ViewData["Admin"] = "Tak";
             var product = await _context.Product.FindAsync(id);
             _context.Product.Remove(product);
             await _context.SaveChangesAsync();

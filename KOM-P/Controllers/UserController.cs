@@ -27,11 +27,11 @@ namespace KOM_P.Controllers
             _db = db;
             _logger = logger;
         }
-        private bool ValidateUser(SignInViewModel model)
+        private User ValidateUser(SignInViewModel model)
         {
 
             User _user = _db.GetUser(model.user, model.password);
-            return (_user != null) ? true : false;
+            return (_user != null) ? _user : null;
         }
 
         [HttpGet]
@@ -43,12 +43,24 @@ namespace KOM_P.Controllers
         [HttpPost]
         public async Task<IActionResult> SignIn(SignInViewModel model)
         {
-            if(ValidateUser(model))
+            User user = ValidateUser(model);
+            if(user!=null)
             {
-                var claims = new List<Claim>()
+                List<Claim> claims;
+                if (user.Permission==true)
                 {
-                new Claim(ClaimTypes.Name, model.user.Login)
-                };
+                    claims = new List<Claim>()
+                    {
+                    new Claim(ClaimTypes.Name, "Admin")
+                    };
+                }
+                else
+                {
+                    claims = new List<Claim>()
+                    {
+                        new Claim(ClaimTypes.Name, model.user.Login)
+                    };
+                }
                 var claimsIdentity = new ClaimsIdentity(claims, "CookieAuthentication");
                 await HttpContext.SignInAsync("CookieAuthentication", new ClaimsPrincipal(claimsIdentity));
             }
@@ -65,7 +77,8 @@ namespace KOM_P.Controllers
         {
             _db.CreateUser(model.user, model.password);
 
-            if (ValidateUser(model))
+            User user = ValidateUser(model);
+            if (user != null)
             {
                 var claims = new List<Claim>()
                 {

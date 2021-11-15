@@ -1,5 +1,4 @@
-﻿
-<div class="navbar navbar-default navbar-fixed-top komp-navbar">
+﻿<div class="navbar navbar-default navbar-fixed-top komp-navbar">
     <div class="nav-wrapper-left">
         <div>@Html.ActionLink("KOM-P", "Index", "Home", new { area = "" }, new { @class = "navbar-logo" })</div>
         @if (ViewData["Admin"] != null)
@@ -14,6 +13,18 @@
                 @Html.ActionLink("Zarządzaj użytkownikami", "Index", "ProductsAdmin")
             </div>
         }
+        else
+        {
+            <div class="float-left">
+                @Html.ActionLink("Procesory", "Index", "Categories",new { id = 1})
+            </div>
+            <div class="float-left">
+                @Html.ActionLink("Karty Graficzne", "Index", "Categories", new { id = 2 })
+            </div>
+            <div class="float-left">
+                @Html.ActionLink("Płyty Główne", "Index", "Categories", new { id = 3 })
+            </div>
+        }
     </div>
     <div class="clear"></div>
     <div class="nav-wrapper-right">
@@ -25,7 +36,7 @@
             <div class="float-right">
                 Witaj @Html.Raw(User.Identity.Name)
             </div>
-            @if (ViewData["Permission"] != null)
+            @if (User.Identity.Name.Equals("Admin"))
             {
                 <div class="float-right">
                     @Html.ActionLink("Panel Administratora", "Index", "AdminPanel")

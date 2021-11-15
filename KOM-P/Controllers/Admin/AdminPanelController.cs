@@ -15,7 +15,6 @@ namespace KOM_P.Controllers.Admin
 
         public AdminPanelController(StoreDbContext db)
         {
-            ViewData["Admin"] = "Tak";
             _db = db;
         }
         public class IndexViewModel
@@ -24,6 +23,7 @@ namespace KOM_P.Controllers.Admin
         }
         public IActionResult Index()
         {
+            ViewData["Admin"] = "Tak";
             IndexViewModel model = new IndexViewModel();
             model.counter = _db.GetCounter();
             return View(model);

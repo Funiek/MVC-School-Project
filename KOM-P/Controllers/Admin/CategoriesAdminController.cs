@@ -23,12 +23,14 @@ namespace KOM_P.Controllers.Admin
         // GET: CategoriesAdmin
         public async Task<IActionResult> Index()
         {
+            ViewData["Admin"] = "Tak";
             return View(await _context.Category.ToListAsync());
         }
 
         // GET: CategoriesAdmin/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            ViewData["Admin"] = "Tak";
             if (id == null)
             {
                 return NotFound();
@@ -47,6 +49,7 @@ namespace KOM_P.Controllers.Admin
         // GET: CategoriesAdmin/Create
         public IActionResult Create()
         {
+            ViewData["Admin"] = "Tak";
             return View();
         }
 
@@ -57,6 +60,7 @@ namespace KOM_P.Controllers.Admin
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,ParentId,Name")] Category category)
         {
+            ViewData["Admin"] = "Tak";
             if (ModelState.IsValid)
             {
                 _context.Add(category);
@@ -69,6 +73,7 @@ namespace KOM_P.Controllers.Admin
         // GET: CategoriesAdmin/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            ViewData["Admin"] = "Tak";
             if (id == null)
             {
                 return NotFound();
@@ -89,6 +94,7 @@ namespace KOM_P.Controllers.Admin
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,ParentId,Name")] Category category)
         {
+            ViewData["Admin"] = "Tak";
             if (id != category.Id)
             {
                 return NotFound();
@@ -120,6 +126,7 @@ namespace KOM_P.Controllers.Admin
         // GET: CategoriesAdmin/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            ViewData["Admin"] = "Tak";
             if (id == null)
             {
                 return NotFound();
@@ -140,6 +147,7 @@ namespace KOM_P.Controllers.Admin
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            ViewData["Admin"] = "Tak";
             var category = await _context.Category.FindAsync(id);
             _context.Category.Remove(category);
             await _context.SaveChangesAsync();
@@ -148,6 +156,7 @@ namespace KOM_P.Controllers.Admin
 
         private bool CategoryExists(int id)
         {
+            ViewData["Admin"] = "Tak";
             return _context.Category.Any(e => e.Id == id);
         }
     }

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using KOM_P.Data;
 using KOM_P.Models;
+using KOM_P.Services;
 
 namespace KOM_P.Controllers
 {
@@ -18,7 +19,12 @@ namespace KOM_P.Controllers
         {
             _context = context;
         }
-
+        public class DetailsViewModel
+        {
+            public Product product { get; set; }
+            public string productLink { get; set; }
+            public string dateOfAdding { get; set; }
+        }
         public async Task<IActionResult> Index()
         {
             return View(await _context.Product.ToListAsync());
@@ -31,14 +37,19 @@ namespace KOM_P.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Product
+            Product product = await _context.Product
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (product == null)
             {
                 return NotFound();
             }
 
-            return View(product);
+            DetailsViewModel model = new DetailsViewModel();
+            DateTime dateTime = (DateTime)product.DateOfAdding;
+            model.product = product;
+            model.productLink = ImageService.GetImage(product.SKU, 480, 480);
+            model.dateOfAdding = dateTime.ToString("dd.MM.yyyy");
+            return View(model);
         }
 
     }

@@ -16,17 +16,18 @@ namespace KOM_P.Controllers.Admin
 
         public UsersAdminController(StoreDbContext context)
         {
-            ViewData["Admin"] = "Tak";
             _context = context;
         }
 
         public async Task<IActionResult> Index()
         {
+            ViewData["Admin"] = "Tak";
             return View(await _context.User.ToListAsync());
         }
 
         public async Task<IActionResult> Details(int? id)
         {
+            ViewData["Admin"] = "Tak";
             if (id == null)
             {
                 return NotFound();
@@ -44,6 +45,7 @@ namespace KOM_P.Controllers.Admin
 
         public IActionResult Create()
         {
+            ViewData["Admin"] = "Tak";
             return View();
         }
 
@@ -51,6 +53,7 @@ namespace KOM_P.Controllers.Admin
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Login,PasswordHash,Permission,Email")] User user)
         {
+            ViewData["Admin"] = "Tak";
             if (ModelState.IsValid)
             {
                 _context.Add(user);
@@ -62,6 +65,7 @@ namespace KOM_P.Controllers.Admin
 
         public async Task<IActionResult> Edit(int? id)
         {
+            ViewData["Admin"] = "Tak";
             if (id == null)
             {
                 return NotFound();
@@ -79,6 +83,7 @@ namespace KOM_P.Controllers.Admin
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Login,PasswordHash,Permission,Email")] User user)
         {
+            ViewData["Admin"] = "Tak";
             if (id != user.Id)
             {
                 return NotFound();
@@ -109,6 +114,7 @@ namespace KOM_P.Controllers.Admin
 
         public async Task<IActionResult> Delete(int? id)
         {
+            ViewData["Admin"] = "Tak";
             if (id == null)
             {
                 return NotFound();
@@ -128,6 +134,7 @@ namespace KOM_P.Controllers.Admin
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            ViewData["Admin"] = "Tak";
             var user = await _context.User.FindAsync(id);
             _context.User.Remove(user);
             await _context.SaveChangesAsync();

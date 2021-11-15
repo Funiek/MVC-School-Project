@@ -108,3 +108,8 @@ INSERT INTO [dbo].[User] ([Id], [Login], [PasswordHash], [Permission], [Email]) 
 INSERT INTO [dbo].[User] ([Id], [Login], [PasswordHash], [Permission], [Email]) VALUES (3, N'User', 0x04F8996DA763B7A969B1028EE3007569EAF3A635486DDAB211D512C85B9DF8FB, 0, N'majonez@wp.pl');
 INSERT INTO [dbo].[User] ([Id], [Login], [PasswordHash], [Permission], [Email]) VALUES (4, N'Kacper', 0x5DB1FEE4B5703808C48078A76768B155B421B210C0761CD6A5D223F4D99F1EAA, 0, N'pis@onet.pl');
 SET IDENTITY_INSERT [dbo].[User] OFF;
+SET IDENTITY_INSERT [dbo].[Category] ON
+INSERT INTO [dbo].[Category] ([Id], [ParentId], [Name]) VALUES (1, NULL, N'Procesory')
+INSERT INTO [dbo].[Category] ([Id], [ParentId], [Name]) VALUES (2, NULL, N'Karty Graficzne')
+INSERT INTO [dbo].[Category] ([Id], [ParentId], [Name]) VALUES (3, NULL, N'Płyty główne')
+SET IDENTITY_INSERT [dbo].[Category] OFF;

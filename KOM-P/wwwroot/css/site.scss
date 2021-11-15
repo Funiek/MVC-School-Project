@@ -141,7 +141,8 @@ footer {
     }
 }
 
-.btn {
+.shop-btn {
+    @extend .btn;
     letter-spacing: 0.1em;
     cursor: pointer;
     font-size: 14px;
@@ -154,7 +155,7 @@ footer {
     width: 100%;
 }
 
-.btn:hover {
+.shop-btn:hover {
     text-decoration: none;
 }
 
