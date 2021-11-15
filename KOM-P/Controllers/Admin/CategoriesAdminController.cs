@@ -16,6 +16,7 @@ namespace KOM_P.Controllers.Admin
 
         public CategoriesAdminController(StoreDbContext context)
         {
+            ViewData["Admin"] = "Tak";
             _context = context;
         }
 

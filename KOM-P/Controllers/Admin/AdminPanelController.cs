@@ -15,6 +15,7 @@ namespace KOM_P.Controllers.Admin
 
         public AdminPanelController(StoreDbContext db)
         {
+            ViewData["Admin"] = "Tak";
             _db = db;
         }
         public class IndexViewModel

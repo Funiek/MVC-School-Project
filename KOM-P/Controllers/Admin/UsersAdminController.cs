@@ -16,16 +16,15 @@ namespace KOM_P.Controllers.Admin
 
         public UsersAdminController(StoreDbContext context)
         {
+            ViewData["Admin"] = "Tak";
             _context = context;
         }
 
-        // GET: UsersAdmin
         public async Task<IActionResult> Index()
         {
             return View(await _context.User.ToListAsync());
         }
 
-        // GET: UsersAdmin/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -43,15 +42,11 @@ namespace KOM_P.Controllers.Admin
             return View(user);
         }
 
-        // GET: UsersAdmin/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: UsersAdmin/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Login,PasswordHash,Permission,Email")] User user)
@@ -65,7 +60,6 @@ namespace KOM_P.Controllers.Admin
             return View(user);
         }
 
-        // GET: UsersAdmin/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -81,9 +75,6 @@ namespace KOM_P.Controllers.Admin
             return View(user);
         }
 
-        // POST: UsersAdmin/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Login,PasswordHash,Permission,Email")] User user)
@@ -116,7 +107,6 @@ namespace KOM_P.Controllers.Admin
             return View(user);
         }
 
-        // GET: UsersAdmin/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -134,7 +124,6 @@ namespace KOM_P.Controllers.Admin
             return View(user);
         }
 
-        // POST: UsersAdmin/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

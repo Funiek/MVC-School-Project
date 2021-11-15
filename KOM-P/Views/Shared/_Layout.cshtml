@@ -9,37 +9,7 @@
 </head>
 <body>
     <header>
-        <div class="navbar navbar-default navbar-fixed-top komp-navbar">
-            <div class="nav-wrapper-left">
-                <div>@Html.ActionLink("KOM-P", "Index", "Home", new { area = "" }, new { @class = "navbar-logo" })</div>
-            </div>
-            <div class="nav-wrapper-right">
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <div class="float-right">
-                        @Html.ActionLink("Wyloguj", "SignOut", "User")
-                    </div>
-                    <div class="float-right">
-                        Witaj @Html.Raw(User.Identity.Name)
-                    </div>
-                    @if (ViewData["Permission"]!=null)
-                    {
-                        <div class="float-right">
-                            @Html.ActionLink("Panel Administratora", "Index", "AdminPanel")
-                        </div>
-                    }
-                }
-                else
-                {
-                    <div class="float-right">
-                        @Html.ActionLink("Zarejestruj się", "SignUp", "User")
-                    </div>
-                    <div class="float-right">
-                        @Html.ActionLink("Zaloguj się", "SignIn", "User")
-                    </div>
-                }
-            </div>
-        </div>
+        @Html.RenderPartialAsync("_NavBar");
     </header>
     <div class="body-container">
         @RenderBody()

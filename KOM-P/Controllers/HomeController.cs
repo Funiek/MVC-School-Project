@@ -29,7 +29,6 @@ namespace KOM_P.Controllers
             _logger = logger;
         }
 
-        // GET: Start
         public ActionResult Index()
         {
             string visited = HttpContext.Session.GetString("Visited");
