@@ -19,7 +19,7 @@ namespace KOM_P.Models
         [StringLength(30)]
         public string Login { get; set; }
 
-        [Display(Name = "Password")]
+        [Display(Name = "Hasło")]
         [DataType(DataType.Password)]
         [Required(ErrorMessage = "pole 'Password' jest obowiązkowe")]
         [StringLength(64)]

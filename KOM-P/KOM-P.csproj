@@ -45,4 +45,25 @@
     <Folder Include="wwwroot\img\Cache\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="wwwroot\css\Form.css">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Form.scss</DependentUpon>
+    </Content>
+    <Content Update="wwwroot\css\Form.scss">
+      <Generator>SassTranspiler</Generator>
+      <LastGenOutput>Form.css</LastGenOutput>
+    </Content>
+    <Content Update="wwwroot\css\site.css">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>site.scss</DependentUpon>
+    </Content>
+    <Content Update="wwwroot\css\site.scss">
+      <Generator>SassTranspiler</Generator>
+      <LastGenOutput>site.css</LastGenOutput>
+    </Content>
+  </ItemGroup>
+
 </Project>

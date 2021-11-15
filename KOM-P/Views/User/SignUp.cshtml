@@ -3,37 +3,62 @@
 @{
     ViewData["Title"] = "SignUp";
 }
+<link rel="stylesheet" href="~/css/Form.css" />
+<div class="containter-custom">
 
-<h1>Zarejestruj się</h1>
+    <h1 class="header">Zarejestruj się</h1>
 
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="SignUp" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="user.Login" class="control-label"></label>
-                <input asp-for="user.Login" class="form-control" />
-                <span asp-validation-for="user.Login" class="text-danger"></span>
+
+    <form asp-action="SignUp" method="post">
+        <div class="container">
+            <!--div asp-validation-summary="ModelOnly" class="text-danger col-12"></!--div>-->
+            <div class="row form-group ">
+                <div class="col-sm-12">
+                    <label asp-for="user.Login" class="control-label label-custom col-12"></label>
+                </div>
+                <div class="col-sm-4">
+                    <input asp-for="user.Login" class="form-control form-input-text-custome" />
+                </div>
+                <div class="col-sm-8">
+                    <span asp-validation-for="user.Login" class="text-danger"></span>
+                </div>
+
             </div>
-            <div class="form-group">
-                <label asp-for="password" class="control-label"></label>
-                <input asp-for="password" class="form-control" />
-                <span asp-validation-for="password" class="text-danger"></span>
+
+
+            <div class="row form-group  ">
+                <div class="col-sm-12">
+                    <label asp-for="user.PasswordHash" class="control-label label-custom col-12"></label>
+                </div>
+                <div class="col-sm-4">
+                    <input asp-for="user.PasswordHash" class="form-control form-input-text-custome" />
+                </div>
+                <div class="col-sm-8">
+                    <span asp-validation-for="user.PasswordHash" class="text-danger "></span>
+                </div>
+
             </div>
-            <div class="form-group">
-                <label asp-for="user.Email" class="control-label"></label>
-                <input asp-for="user.Email" class="form-control" />
-                <span asp-validation-for="user.Email" class="text-danger"></span>
+
+
+
+            <div class=" row form-group  ">
+                <div class="col-sm-12">
+                    <label asp-for="user.Email" class="control-label label-custom col-12"></label>
+                </div>
+                <div class="col-sm-4">
+                    <input asp-for="user.Email" class="form-control form-input-text-custome" />
+                </div>
+                <div class="col-sm-8">
+                    <span asp-validation-for="user.Email" class="text-danger "></span>
+                </div>
+
             </div>
-            <div class="form-group">
-                <input type="submit" value="Stwórz" class="shop-btn effect01" />
+            
+            <div class="form-group form-submit-button-custom row">
+                <button type="submit" class="btn shop-btn effect01">Stwórz  </button>
             </div>
-        </form>
-    </div>
+        </div>
+    </form>
+
+
 </div>
-
-<div>
-    @Html.ActionLink("Powrót do Strony Głównej","Index","Home")
-</div>
-
