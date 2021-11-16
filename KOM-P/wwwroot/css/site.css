@@ -12,6 +12,21 @@ footer {
   display: block;
   margin: 0px auto 20px auto; }
 
+.product-image-full {
+  width: 100%;
+  height: auto; }
+
+.product-image-details {
+  width: 480px;
+  height: auto;
+  float: left; }
+
+.product-desc {
+  text-align: left;
+  font-size: 30px;
+  float: left;
+  padding: 20px; }
+
 .navbar-logo {
   font-size: 30px;
   float: left;
@@ -20,6 +35,11 @@ footer {
   line-height: 20px;
   text-decoration: none;
   color: #000000; }
+
+.category-name {
+  padding-left: 20px;
+  padding-bottom: 20px;
+  border-bottom: 4px solid #f15025; }
 
 .navbar-logo:hover {
   color: #808080;
@@ -36,7 +56,6 @@ footer {
 .promo-list {
   width: 1250px;
   padding: 0px 10px 10px 10px;
-  border: 1px solid #808080;
   border-radius: 5px;
   margin: 0 auto; }
 
@@ -53,7 +72,22 @@ footer {
 .promo-list-wrapper {
   display: block; }
 
+.product-details-wrapper {
+  padding-bottom: 40px; }
+
+body > div > div:first-child > div.product-desc > p:first-child {
+  margin-bottom: 0px;
+  border-bottom: 4px solid #f15025; }
+
+.SKU {
+  text-align: left;
+  padding-top: 0px;
+  margin-top: 0px;
+  font-size: 20px;
+  color: dimgrey; }
+
 .product {
+  margin-bottom: 20px;
   display: block;
   width: 270px;
   border: 1px solid #4a4646;
@@ -115,6 +149,21 @@ footer {
 .shop-btn:hover {
   text-decoration: none; }
 
+.add-to-cart-btn {
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 45px;
+  max-width: 240px;
+  position: relative;
+  text-decoration: none;
+  text-transform: uppercase;
+  width: 100%; }
+
+.add-to-cart-btn:hover {
+  text-decoration: none; }
+
 /*btn_background*/
 .effect01 {
   color: #FFF;
@@ -165,3 +214,30 @@ footer {
   left: 120%;
   -webkit-transform: rotate(40deg);
   transform: rotate(40deg); }
+
+.nav-wrapper {
+  list-style-type: none;
+  margin: 0px;
+  padding: 18px;
+  font-size: 18px;
+  min-height: 38px;
+  line-height: 200%; }
+
+.nav-wrapper > li {
+  display: inline-block;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-right: 1px dashed #f15025; }
+
+.nav-wrapper > li:hover {
+  background-color: #e6e8e6; }
+
+.nav-wrapper > li:first-child {
+  border-left: 1px dashed #f15025; }
+
+.nav-wrapper a {
+  text-decoration: none;
+  color: #000; }
+
+.nav-wrapper a:hover {
+  color: #f15025; }

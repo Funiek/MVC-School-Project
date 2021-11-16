@@ -1,56 +1,58 @@
 ﻿<div class="navbar navbar-default navbar-fixed-top komp-navbar">
-    <div class="nav-wrapper-left">
-        <div>@Html.ActionLink("KOM-P", "Index", "Home", new { area = "" }, new { @class = "navbar-logo" })</div>
+    <div>@Html.ActionLink("KOM-P", "Index", "Home", new { area = "" }, new { @class = "navbar-logo" })</div>
+    <ul class="nav-wrapper float-left">
         @if (ViewData["Admin"] != null)
         {
-            <div class="float-left">
+            <li>
                 @Html.ActionLink("Zarządzaj kategoriami", "Index", "CategoriesAdmin")
-            </div>
-            <div class="float-left">
+            </li>
+            <li>
                 @Html.ActionLink("Zarządzaj produktami", "Index", "ProductsAdmin")
-            </div>
-            <div class="float-left">
+            </li>
+            <li>
                 @Html.ActionLink("Zarządzaj użytkownikami", "Index", "ProductsAdmin")
-            </div>
+            </li>
         }
         else
         {
-            <div class="float-left">
-                @Html.ActionLink("Procesory", "Index", "Categories",new { id = 1})
-            </div>
-            <div class="float-left">
+            <li>
+                @Html.ActionLink("Procesory", "Index", "Categories", new { id = 1 })
+            </li>
+            <li>
                 @Html.ActionLink("Karty Graficzne", "Index", "Categories", new { id = 2 })
-            </div>
-            <div class="float-left">
+            </li>
+            <li>
                 @Html.ActionLink("Płyty Główne", "Index", "Categories", new { id = 3 })
-            </div>
+            </li>
         }
-    </div>
-    <div class="clear"></div>
-    <div class="nav-wrapper-right">
+    </ul>
+    <ul class="nav-wrapper float-right">
         @if (User.Identity.IsAuthenticated)
         {
-            <div class="float-right">
-                @Html.ActionLink("Wyloguj", "SignOut", "User")
-            </div>
-            <div class="float-right">
+
+            <li>
                 Witaj @Html.Raw(User.Identity.Name)
-            </div>
+            </li>
             @if (User.Identity.Name.Equals("Admin"))
             {
-                <div class="float-right">
+                <li>
                     @Html.ActionLink("Panel Administratora", "Index", "AdminPanel")
-                </div>
+                </li>
             }
+            <li>
+                @Html.ActionLink("Wyloguj", "SignOut", "User")
+            </li>
         }
         else
         {
-            <div class="float-right">
-                @Html.ActionLink("Zarejestruj się", "SignUp", "User")
-            </div>
-            <div class="float-right">
+            <li>
                 @Html.ActionLink("Zaloguj się", "SignIn", "User")
-            </div>
+            </li>
+            <li>
+                @Html.ActionLink("Zarejestruj się", "SignUp", "User")
+            </li>
+
         }
-    </div>
+    </ul>
+    <div class="clear"></div>
 </div>
