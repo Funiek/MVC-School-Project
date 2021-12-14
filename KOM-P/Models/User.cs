@@ -2,33 +2,60 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace KOM_P.Models
+// Code scaffolded by EF Core assumes nullable reference types (NRTs) are not used or disabled.
+// If you have enabled NRTs for your project, then un-comment the following line:
+// #nullable disable
+
+namespace test222.Repository.Models
 {
-    [Table("User")]
     public partial class User
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        [Key]
-        public int Id { get; set; }
+        public User()
+        {
+            Comment = new HashSet<Comment>();
+            EmailNavigation = new HashSet<Email>();
+            FavouriteProduct = new HashSet<FavouriteProduct>();
+            Invoice = new HashSet<Invoice>();
+            Order = new HashSet<Order>();
+            UserUserGroup = new HashSet<UserUserGroup>();
+        }
 
-        [Display(Name = "Login")]
-        [Required(ErrorMessage = "pole 'Login' jest obowiązkowe")]
+        [Key]
+        [Column("UserID")]
+        public int UserId { get; set; }
+        [Required]
         [StringLength(30)]
         public string Login { get; set; }
-
-        [Display(Name = "Hasło")]
-        [DataType(DataType.Password)]
-        [Required(ErrorMessage = "pole 'Password' jest obowiązkowe")]
-        [StringLength(64)]
+        [Required]
+        [MaxLength(32)]
         public byte[] PasswordHash { get; set; }
-
         public bool? Permission { get; set; }
-
-        [Display(Name = "Email")]
         [StringLength(100)]
         public string Email { get; set; }
+        [Required]
+        [StringLength(100)]
+        public string Name { get; set; }
+        [Required]
+        [StringLength(100)]
+        public string Surname { get; set; }
+        [Required]
+        [StringLength(100)]
+        public string Address { get; set; }
+        [StringLength(13)]
+        public string Phone { get; set; }
+
+        [InverseProperty("User")]
+        public virtual ICollection<Comment> Comment { get; set; }
+        [InverseProperty("User")]
+        public virtual ICollection<Email> EmailNavigation { get; set; }
+        [InverseProperty("User")]
+        public virtual ICollection<FavouriteProduct> FavouriteProduct { get; set; }
+        [InverseProperty("User")]
+        public virtual ICollection<Invoice> Invoice { get; set; }
+        [InverseProperty("User")]
+        public virtual ICollection<Order> Order { get; set; }
+        [InverseProperty("User")]
+        public virtual ICollection<UserUserGroup> UserUserGroup { get; set; }
     }
 }

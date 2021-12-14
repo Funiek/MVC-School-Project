@@ -9,23 +9,21 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace test222.Repository.Models
 {
-    public partial class Category
+    public partial class Description
     {
-        public Category()
+        public Description()
         {
             Product = new HashSet<Product>();
         }
 
         [Key]
-        [Column("CategoryID")]
-        public int CategoryId { get; set; }
-        [Column("ParentID")]
-        public int? ParentId { get; set; }
+        [Column("DescriptionID")]
+        public int DescriptionId { get; set; }
         [Required]
-        [StringLength(50)]
-        public string Name { get; set; }
+        [Column("Description", TypeName = "text")]
+        public string Description1 { get; set; }
 
-        [InverseProperty("Category")]
+        [InverseProperty("Description")]
         public virtual ICollection<Product> Product { get; set; }
     }
 }
