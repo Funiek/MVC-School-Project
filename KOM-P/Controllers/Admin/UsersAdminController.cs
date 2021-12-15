@@ -34,7 +34,7 @@ namespace KOM_P.Controllers.Admin
             }
 
             var user = await _context.User
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.UserId == id);
             if (user == null)
             {
                 return NotFound();
@@ -84,7 +84,7 @@ namespace KOM_P.Controllers.Admin
         public async Task<IActionResult> Edit(int id, [Bind("Id,Login,PasswordHash,Permission,Email")] User user)
         {
             ViewData["Admin"] = "Tak";
-            if (id != user.Id)
+            if (id != user.UserId)
             {
                 return NotFound();
             }
@@ -98,7 +98,7 @@ namespace KOM_P.Controllers.Admin
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UserExists(user.Id))
+                    if (!UserExists(user.UserId))
                     {
                         return NotFound();
                     }
@@ -121,7 +121,7 @@ namespace KOM_P.Controllers.Admin
             }
 
             var user = await _context.User
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.UserId == id);
             if (user == null)
             {
                 return NotFound();
@@ -143,7 +143,7 @@ namespace KOM_P.Controllers.Admin
 
         private bool UserExists(int id)
         {
-            return _context.User.Any(e => e.Id == id);
+            return _context.User.Any(e => e.UserId == id);
         }
     }
 }

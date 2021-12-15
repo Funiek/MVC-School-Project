@@ -38,16 +38,16 @@ namespace KOM_P.Controllers
             }
 
             Product product = await _context.Product
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.ProductId == id);
             if (product == null)
             {
                 return NotFound();
             }
 
             DetailsViewModel model = new DetailsViewModel();
-            DateTime dateTime = (DateTime)product.DateOfAdding;
+            DateTime dateTime = (DateTime)product.AddDate;
             model.product = product;
-            model.productLink = ImageService.GetImage(product.SKU, 480, 480);
+            model.productLink = ImageService.GetImage(product.Sku, 480, 480);
             model.dateOfAdding = dateTime.ToString("dd.MM.yyyy");
             return View(model);
         }

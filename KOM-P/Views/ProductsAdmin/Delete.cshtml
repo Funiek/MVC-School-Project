@@ -24,16 +24,16 @@
             @Html.DisplayFor(model => model.DescriptionId)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DateOfAdding)
+            @Html.DisplayNameFor(model => model.AddDate)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DateOfAdding)
+            @Html.DisplayFor(model => model.AddDate)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ForPromo)
+            @Html.DisplayNameFor(model => model.HavePromoPrice)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ForPromo)
+            @Html.DisplayFor(model => model.HavePromoPrice)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Visible)
@@ -42,10 +42,10 @@
             @Html.DisplayFor(model => model.Visible)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.SKU)
+            @Html.DisplayNameFor(model => model.Sku)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SKU)
+            @Html.DisplayFor(model => model.Sku)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Name)
@@ -53,16 +53,16 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Name)
         </dd>
-        <dt class = "col-sm-2">
+        @*<dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Price)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Price)
-        </dd>
+        </dd>*@
     </dl>
     
     <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="ProductId" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-action="Index">Back to List</a>
     </form>

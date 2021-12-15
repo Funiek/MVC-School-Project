@@ -8,9 +8,9 @@
     <div class="product-image-details"><img src="@Html.Raw(Model.productLink)" alt="Zdjęcie" class="product-image-full" /></div>
     <div class="product-desc">
         <p>Nazwa produktu: @Html.DisplayFor(model => model.product.Name)</p>
-        <p class="SKU">SKU: @Html.DisplayFor(model => model.product.SKU)</p>
+        <p class="SKU">SKU: @Html.DisplayFor(model => model.product.Sku)</p>
         <p>Data wydania: @Html.DisplayFor(model => model.dateOfAdding)</p>
-        <p>Price: @Html.DisplayFor(model => model.product.Price)&nbsp;zł</p>
+        @*<p>Price: @Html.DisplayFor(model => model.product.Price)&nbsp;zł</p>*@
         <button class="btn add-to-cart-btn effect01">Dodaj do koszyka</button>
     </div>
     <div style="clear:both;"></div>

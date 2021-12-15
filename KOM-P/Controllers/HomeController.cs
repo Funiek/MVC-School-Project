@@ -46,7 +46,7 @@ namespace KOM_P.Controllers
             {
                 index = new IndexViewModel();
                 index.product = product;
-                index.productLink = ImageService.GetImage(product.SKU,240,240);
+                index.productLink = ImageService.GetImage(product.Sku,240,240);
                 indexViewModels.Add(index);
             }
             return View(indexViewModels);

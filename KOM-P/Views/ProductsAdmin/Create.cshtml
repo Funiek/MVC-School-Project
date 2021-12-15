@@ -13,9 +13,9 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Id" class="control-label"></label>
-                <input asp-for="Id" class="form-control" />
-                <span asp-validation-for="Id" class="text-danger"></span>
+                <label asp-for="ProductId" class="control-label"></label>
+                <input asp-for="ProductId" class="form-control" />
+                <span asp-validation-for="ProductId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="CategoryId" class="control-label"></label>
@@ -28,14 +28,14 @@
                 <span asp-validation-for="DescriptionId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DateOfAdding" class="control-label"></label>
-                <input asp-for="DateOfAdding" class="form-control" />
-                <span asp-validation-for="DateOfAdding" class="text-danger"></span>
+                <label asp-for="AddDate" class="control-label"></label>
+                <input asp-for="AddDate" class="form-control" />
+                <span asp-validation-for="AddDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ForPromo" class="control-label"></label>
-                <input asp-for="ForPromo" class="form-control" />
-                <span asp-validation-for="ForPromo" class="text-danger"></span>
+                <label asp-for="HavePromoPrice" class="control-label"></label>
+                <input asp-for="HavePromoPrice" class="form-control" />
+                <span asp-validation-for="HavePromoPrice" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Visible" class="control-label"></label>
@@ -43,20 +43,20 @@
                 <span asp-validation-for="Visible" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="SKU" class="control-label"></label>
-                <input asp-for="SKU" class="form-control" />
-                <span asp-validation-for="SKU" class="text-danger"></span>
+                <label asp-for="Sku" class="control-label"></label>
+                <input asp-for="Sku" class="form-control" />
+                <span asp-validation-for="Sku" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            @*<div class="form-group">
                 <label asp-for="Price" class="control-label"></label>
                 <input asp-for="Price" class="form-control" />
                 <span asp-validation-for="Price" class="text-danger"></span>
-            </div>
+            </div>*@
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

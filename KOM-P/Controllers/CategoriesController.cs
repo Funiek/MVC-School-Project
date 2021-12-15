@@ -31,13 +31,13 @@ namespace KOM_P.Controllers
             List<IndexViewModel> indexViewModels = new List<IndexViewModel>();
             IndexViewModel index;
             List<Product> products = await _context.Product.Where(e=>e.CategoryId==id).ToListAsync();
-            Category category = await _context.Category.FirstOrDefaultAsync(m => m.Id == id);
+            Category category = await _context.Category.FirstOrDefaultAsync(m => m.CategoryId == id);
             ViewData["CategoryName"] = category.Name;
             foreach (Product product in products)
             {
                 index = new IndexViewModel();
                 index.product = product;
-                index.productLink = ImageService.GetImage(product.SKU, 240, 240);
+                index.productLink = ImageService.GetImage(product.Sku, 240, 240);
                 indexViewModels.Add(index);
             }
             return View(indexViewModels);
@@ -52,7 +52,7 @@ namespace KOM_P.Controllers
             }
 
             var category = await _context.Category
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.CategoryId == id);
             if (category == null)
             {
                 return NotFound();

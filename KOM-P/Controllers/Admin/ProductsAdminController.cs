@@ -36,7 +36,7 @@ namespace KOM_P.Controllers.Admin
             }
 
             var product = await _context.Product
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.ProductId == id);
             if (product == null)
             {
                 return NotFound();
@@ -94,7 +94,7 @@ namespace KOM_P.Controllers.Admin
         public async Task<IActionResult> Edit(int id, [Bind("Id,CategoryId,DescriptionId,DateOfAdding,ForPromo,Visible,SKU,Name,Price")] Product product)
         {
             ViewData["Admin"] = "Tak";
-            if (id != product.Id)
+            if (id != product.ProductId)
             {
                 return NotFound();
             }
@@ -108,7 +108,7 @@ namespace KOM_P.Controllers.Admin
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProductExists(product.Id))
+                    if (!ProductExists(product.ProductId))
                     {
                         return NotFound();
                     }
@@ -132,7 +132,7 @@ namespace KOM_P.Controllers.Admin
             }
 
             var product = await _context.Product
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.ProductId == id);
             if (product == null)
             {
                 return NotFound();
@@ -155,7 +155,7 @@ namespace KOM_P.Controllers.Admin
 
         private bool ProductExists(int id)
         {
-            return _context.Product.Any(e => e.Id == id);
+            return _context.Product.Any(e => e.ProductId == id);
         }
     }
 }

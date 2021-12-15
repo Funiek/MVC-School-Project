@@ -37,7 +37,7 @@ namespace KOM_P.Controllers.Admin
             }
 
             var category = await _context.Category
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.CategoryId == id);
             if (category == null)
             {
                 return NotFound();
@@ -95,7 +95,7 @@ namespace KOM_P.Controllers.Admin
         public async Task<IActionResult> Edit(int id, [Bind("Id,ParentId,Name")] Category category)
         {
             ViewData["Admin"] = "Tak";
-            if (id != category.Id)
+            if (id != category.CategoryId)
             {
                 return NotFound();
             }
@@ -109,7 +109,7 @@ namespace KOM_P.Controllers.Admin
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CategoryExists(category.Id))
+                    if (!CategoryExists(category.CategoryId))
                     {
                         return NotFound();
                     }
@@ -133,7 +133,7 @@ namespace KOM_P.Controllers.Admin
             }
 
             var category = await _context.Category
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.CategoryId == id);
             if (category == null)
             {
                 return NotFound();
@@ -157,7 +157,7 @@ namespace KOM_P.Controllers.Admin
         private bool CategoryExists(int id)
         {
             ViewData["Admin"] = "Tak";
-            return _context.Category.Any(e => e.Id == id);
+            return _context.Category.Any(e => e.CategoryId == id);
         }
     }
 }

@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 // If you have enabled NRTs for your project, then un-comment the following line:
 // #nullable disable
 
-namespace test222.Repository.Models
+namespace KOM_P.Models
 {
     [Table("ProductPrice_Discount")]
     public partial class ProductPriceDiscount
