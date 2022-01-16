@@ -1,9 +1,11 @@
-﻿using KOM_P.Data;
+﻿
+using KOM_P.Filters;
 using KOM_P.Models;
 using KOM_P.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Repository;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -11,13 +13,14 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace KOM_P.Controllers
-{
+{   
     public class HomeController : Controller
     {
         public class IndexViewModel
         {
             public Product product { get; set; }
             public string productLink { get; set; }
+            public ProductPrice price { get; set; }
         }
 
         private readonly ILogger<HomeController> _logger;
@@ -44,12 +47,43 @@ namespace KOM_P.Controllers
             List<Product> products = _db.GetProducts(4);
             foreach (Product product in products)
             {
+                //_db.Entry(product).Collection(c => c.ProductPrice).Query().Where(p => p.ProductId == product.ProductId).;
                 index = new IndexViewModel();
                 index.product = product;
+                if(ViewData["Language"].Equals("PL")) index.price = _db.Entry(product).Collection(c => c.ProductPrice).Query().
+                                                Where(p => p.ProductId == product.ProductId && p.Description == "PLN").FirstOrDefault();
+                else if (ViewData["Language"].Equals("DE")) index.price = _db.Entry(product).Collection(c => c.ProductPrice).Query().
+                                                Where(p => p.ProductId == product.ProductId && p.Description == "GBP").FirstOrDefault();
+                else if (ViewData["Language"].Equals("GB")) index.price = _db.Entry(product).Collection(c => c.ProductPrice).Query().
+                                                Where(p => p.ProductId == product.ProductId && p.Description == "EUR").FirstOrDefault();
+                else index.price = _db.Entry(product).Collection(c => c.ProductPrice).Query().
+                                   Where(p => p.ProductId == product.ProductId && p.Description == "PLN").FirstOrDefault();
+                
+                if(index.price==null) index.price = _db.Entry(product).Collection(c => c.ProductPrice).Query().
+                                        Where(p => p.ProductId == product.ProductId && p.Description == "PLN").FirstOrDefault();
+                if(index.price == null)
+                {
+                    index.price = new ProductPrice()
+                    {
+                        Price = 0,
+                        ProductId = 0,
+                        Description = ""
+                    };
+                }
+
+
                 index.productLink = ImageService.GetImage(product.Sku,240,240);
                 indexViewModels.Add(index);
             }
             return View(indexViewModels);
+        }
+
+        public ActionResult ChangeLanguage()
+        {
+            if (Request.Cookies["Language"].Equals("PL")) Response.Cookies.Append("Language", "DE");
+            else if (Request.Cookies["Language"].Equals("DE")) Response.Cookies.Append("Language", "GB");
+            else Response.Cookies.Append("Language", "PL");
+            return Redirect(Request.Headers["Referer"].ToString());
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

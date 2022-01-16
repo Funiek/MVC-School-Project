@@ -1,4 +1,5 @@
-using KOM_P.Data;
+
+using KOM_P.Filters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -7,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,6 +38,11 @@ namespace KOM_P
                 config.Cookie.Name = "UserLoginCookie";
                 config.LoginPath = "/User/SignIn";
                 config.Cookie.SameSite = SameSiteMode.Strict;
+            });
+
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(new LanguageFilter(Configuration));
             });
 
             services.AddSession();

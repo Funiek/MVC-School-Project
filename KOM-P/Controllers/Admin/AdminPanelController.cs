@@ -1,7 +1,7 @@
-﻿using KOM_P.Data;
-using KOM_P.Models;
+﻿using KOM_P.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;

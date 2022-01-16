@@ -1,8 +1,9 @@
-﻿using KOM_P.Data;
+﻿
 using KOM_P.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,12 +38,14 @@ namespace KOM_P.Controllers
         [HttpGet]
         public IActionResult SignIn()
         {
+            ViewBag.SignIn = TempData["SignIn"];
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> SignIn(SignInViewModel model)
         {
+
             User user = ValidateUser(model);
             if(user!=null)
             {
@@ -63,8 +66,12 @@ namespace KOM_P.Controllers
                 }
                 var claimsIdentity = new ClaimsIdentity(claims, "CookieAuthentication");
                 await HttpContext.SignInAsync("CookieAuthentication", new ClaimsPrincipal(claimsIdentity));
+                TempData["SignIn"] = "";
+                return RedirectToAction("Index", "Home");
             }
-            return RedirectToAction("Index","Home");
+
+            TempData["SignIn"] = "Błąd Logowania!";
+            return RedirectToAction("SignIn","User");
         }
 
         [HttpGet]

@@ -22,11 +22,11 @@
                         <div class="product-title">
                             @Html.Raw(promoProduct.product.Name)
                         </div>
-                        @*<div class="product-price">
-                            @Html.Raw(promoProduct.product.Price)&nbsp;zł
-                        </div>*@
+                        <div class="product-price">
+                            @Html.Raw($"{promoProduct.price.Price.ToString()}&nbsp;{promoProduct.price.Description}")
+                        </div>
                         <div class="product-special-price">
-                            99,99&nbsp;zł
+                            99,99&nbsp;
                         </div>
                     </div>
                 </div>

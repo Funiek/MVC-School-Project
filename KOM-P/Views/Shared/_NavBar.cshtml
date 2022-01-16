@@ -16,13 +16,13 @@
         else
         {
             <li>
-                @Html.ActionLink("Procesory", "Index", "Categories", new { id = 1 })
+                @Html.ActionLink("Procesory", "Index", "Categories", new { id = 5 })
             </li>
             <li>
-                @Html.ActionLink("Karty Graficzne", "Index", "Categories", new { id = 2 })
+                @Html.ActionLink("Karty Graficzne", "Index", "Categories", new { id = 6 })
             </li>
             <li>
-                @Html.ActionLink("Płyty Główne", "Index", "Categories", new { id = 3 })
+                @Html.ActionLink("Płyty Główne", "Index", "Categories", new { id = 7 })
             </li>
         }
     </ul>
@@ -45,6 +45,23 @@
         }
         else
         {
+            if(ViewData["Language"] != null)
+            {
+                <li>
+                    @Html.ActionLink(ViewData["Language"].ToString(), "ChangeLanguage", "Home")
+                </li>
+            }
+            else
+            {
+                <li>
+                    @Html.ActionLink("DUPA", "ChangeLanguage", "Home")
+                </li>
+            }
+            <li>
+                <a href="@Url.Action("Index", "Home")">
+                    <i class="fas fa-shopping-cart"></i>&nbsp;
+                </a>
+            </li>
             <li>
                 @Html.ActionLink("Zaloguj się", "SignIn", "User")
             </li>

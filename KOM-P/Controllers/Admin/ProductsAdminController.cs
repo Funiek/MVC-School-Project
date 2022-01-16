@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using KOM_P.Data;
 using KOM_P.Models;
+using Repository;
 
 namespace KOM_P.Controllers.Admin
 {
@@ -49,6 +49,27 @@ namespace KOM_P.Controllers.Admin
         public IActionResult Create()
         {
             ViewData["Admin"] = "Tak";
+            List<SelectListItem> categoryIds = new List<SelectListItem>();
+            List<Category> categories = _context.Set<Category>().ToList();
+            foreach (var category in categories)
+            {
+                SelectListItem temp = new SelectListItem() { Text = category.Name, Value = category.CategoryId.ToString() };
+                categoryIds.Add(temp);
+            }
+
+            List<SelectListItem> descriptionsIds = new List<SelectListItem>();
+            List<Description> descriptions = _context.Set<Description>().ToList();
+            foreach (var description in descriptions)
+            {
+                SelectListItem temp = new SelectListItem() { Text = description.DescriptionId.ToString(), Value = description.DescriptionId.ToString() };
+                descriptionsIds.Add(temp);
+            }
+
+            categoryIds.First().Selected = true;
+            descriptionsIds.First().Selected = true;
+
+            ViewBag.CategoryId = categoryIds;
+            ViewBag.DescriptionId = descriptionsIds;
             return View();
         }
 
@@ -72,6 +93,7 @@ namespace KOM_P.Controllers.Admin
         // GET: ProductsAdmin/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            
             ViewData["Admin"] = "Tak";
             if (id == null)
             {
@@ -83,13 +105,38 @@ namespace KOM_P.Controllers.Admin
             {
                 return NotFound();
             }
+
+            _context.Entry(product).Reference(c => c.Category).Load();
+
+            List<SelectListItem> categoryIds = new List<SelectListItem>();
+            List<Category> categories = _context.Set<Category>().ToList();
+            foreach(var category in categories)
+            {
+                SelectListItem temp = new SelectListItem() { Text = category.Name, Value = category.CategoryId.ToString() };
+                if(product.CategoryId == category.CategoryId) temp.Selected = true;
+                categoryIds.Add(temp);
+
+            }
+
+            List<SelectListItem> descriptionsIds = new List<SelectListItem>();
+            List<Description> descriptions = _context.Set<Description>().ToList();
+            foreach (var description in descriptions)
+            {
+                SelectListItem temp = new SelectListItem() { Text = description.DescriptionId.ToString(), Value = description.DescriptionId.ToString() };
+                if (product.DescriptionId == description.DescriptionId) temp.Selected = true;
+                descriptionsIds.Add(temp);
+
+            }
+
+            ViewBag.CategoryId = categoryIds;
+            ViewBag.DescriptionId = descriptionsIds;
             return View(product);
         }
 
         // POST: ProductsAdmin/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,CategoryId,DescriptionId,DateOfAdding,ForPromo,Visible,SKU,Name,Price")] Product product)
         {
