@@ -97,6 +97,24 @@ namespace KOM_P.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [HttpPost]
+        public async Task<IActionResult> SignUpAsyncToCheckout(SignInViewModel model)
+        {
+            _db.CreateUser(model.user, model.password);
+
+            User user = ValidateUser(model);
+            if (user != null)
+            {
+                var claims = new List<Claim>()
+                {
+                new Claim(ClaimTypes.Name, model.user.Login)
+                };
+                var claimsIdentity = new ClaimsIdentity(claims, "CookieAuthentication");
+                await HttpContext.SignInAsync("CookieAuthentication", new ClaimsPrincipal(claimsIdentity));
+            }
+            return RedirectToAction("Index", "Checkout");
+        }
+
         public async Task<IActionResult> SignOut()
         {
             await HttpContext.SignOutAsync("CookieAuthentication");

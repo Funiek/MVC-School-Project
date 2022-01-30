@@ -1,0 +1,49 @@
+﻿@model KOM_P.Controllers.CheckoutController.CheckoutViewModel
+@{
+    ViewBag.Title = "Realizacja zamówienia";
+
+}
+
+<div class="row checkout-container">
+    <div class="col-md-6 checkout-container-left">
+        <h2>Dostawa i płatność</h2>
+
+        <div class="col-md-12 checkout-user-data">
+            <h3>Dane odbiorcy</h3>
+            <div class="checkout-user-data-row">
+                <input asp-for="order.User.Name" type="text" placeholder="Imię" />
+            </div>
+            <div class="checkout-user-data-row">
+                <input asp-for="order.User.Surname" type="text" placeholder="Nazwisko" />
+            </div>
+            <div class="checkout-user-data-row">
+                <input asp-for="order.Address" type="text" placeholder="Adres dostawy" />
+            </div>
+        </div>
+
+        <div class="col-md-12 checkout-shipping">
+            <h3>Sposoby dostawy</h3>
+        </div>
+
+        <div class="col-md-12 checkout-payment">
+            <h3>Metody płatności</h3>
+        </div>
+        
+
+        
+
+        
+    </div>
+    <div class="col-md-6 checkout-container-right">
+        <h2>Lista produktów</h2>
+            @foreach (var item in Model.checkoutProducts)
+            {
+            <div class="cart-product">
+                <div class="col-md-3"><img class="cart-img" src="@Html.Raw(item.productLink)" alt="Zdjęcie" /></div>
+                <div class="col-md-7">@item.product.Name</div>
+                <div class="col-md-1">@item.product.Qty</div>
+                <div class="col-md-1">@item.product.Price</div>
+            </div>
+            }
+    </div>
+</div>
