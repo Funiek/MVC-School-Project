@@ -24,7 +24,7 @@ namespace KOM_P.Models
         [Key]
         [Column("UserID")]
         public int UserId { get; set; }
-        [Required]
+        [Required(ErrorMessage ="Pole Login jest wymagane!")]
         [StringLength(30)]
         public string Login { get; set; }
         [Required]
@@ -32,17 +32,24 @@ namespace KOM_P.Models
         public byte[] PasswordHash { get; set; }
         public bool? Permission { get; set; }
         [StringLength(100)]
+        [Required(ErrorMessage = "Pole Email jest wymagane!")]
+        [EmailAddress(ErrorMessage = "Fraza nie przypomina adresu email")]
         public string Email { get; set; }
-        [Required]
+        [Required(ErrorMessage = "To pole jest wymagane!")]
         [StringLength(100)]
+        [MinLength(2, ErrorMessage = "Imie jest za krótkie!")]
         public string Name { get; set; }
-        [Required]
+        [Required(ErrorMessage = "To pole jest wymagane!")]
         [StringLength(100)]
+        [MinLength(2,ErrorMessage ="Nazwisko jest za krótkie!")]
         public string Surname { get; set; }
-        [Required]
+        [Required(ErrorMessage = "To pole jest wymagane!")]
         [StringLength(100)]
+        [MinLength(5, ErrorMessage = "Adres jest za krótki!")]
         public string Address { get; set; }
         [StringLength(13)]
+        [Required(ErrorMessage = "To pole jest wymagane!")]
+        [MinLength(9, ErrorMessage = "Telefon jest za krótki!")]
         public string Phone { get; set; }
 
         [InverseProperty("User")]
