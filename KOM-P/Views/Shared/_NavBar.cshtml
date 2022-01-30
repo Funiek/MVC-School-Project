@@ -29,7 +29,6 @@
     <ul class="nav-wrapper float-right">
         @if (User.Identity.IsAuthenticated)
         {
-
             <li>
                 Witaj @Html.Raw(User.Identity.Name)
             </li>
@@ -58,7 +57,7 @@
                 </li>
             }
             <li>
-                <a href="@Url.Action("Index", "Home")">
+                <a href="@Url.Action("Index", "Cart")">
                     <i class="fas fa-shopping-cart"></i>&nbsp;
                 </a>
             </li>
@@ -68,7 +67,6 @@
             <li>
                 @Html.ActionLink("Zarejestruj się", "SignUp", "User")
             </li>
-
         }
     </ul>
     <div class="clear"></div>

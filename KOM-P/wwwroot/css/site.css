@@ -285,3 +285,11 @@ body > div > div:first-child > div.product-desc > p:first-child {
 .nav-wrapper a:hover {
   color: #f15025;
 }
+
+.cart-container {
+  display: block;
+  margin: 0 auto 0 auto;
+  min-width: 1250px;
+  min-height: 300px;
+  background-color: #fefefe;
+}

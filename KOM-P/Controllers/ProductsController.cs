@@ -26,6 +26,7 @@ namespace KOM_P.Controllers
             public string productLink { get; set; }
             public string dateOfAdding { get; set; }
             public ProductPrice price { get; set; }
+            public int qty { get; set; }
         }
         public async Task<IActionResult> Index()
         {
@@ -61,11 +62,27 @@ namespace KOM_P.Controllers
             Product product = await _context.Product
                 .FirstOrDefaultAsync(m => m.ProductId == temp.product.ProductId);
 
-            List<Product> cartProducts = SessionService.GetSession<List<Product>>(HttpContext.Session, "CartProducts");
+            List<CartProduct> cartProducts = SessionService.GetSession<List<CartProduct>>(HttpContext.Session, "CartProducts");
             
-            if(cartProducts == null) cartProducts = new List<Product>();
+            if(cartProducts == null) cartProducts = new List<CartProduct>();
 
-            cartProducts.Add(product);
+            if(cartProducts.Where(e=>e.Id==product.ProductId).Any())
+            {
+                foreach (CartProduct tempProduct in cartProducts)
+                {
+                    tempProduct.Qty += temp.qty;
+                }
+            }
+            else
+            {
+                CartProduct cartProduct = new CartProduct();
+                cartProduct.Qty = temp.qty;
+                cartProduct.Id = product.ProductId;
+                cartProduct.Name = product.Name;
+                cartProduct.Price = 199.00M;
+                cartProduct.PromoPrice = 129.99M;
+                cartProducts.Add(cartProduct);
+            }
 
             SessionService.SetSession(HttpContext.Session, "CartProducts", cartProducts);
 

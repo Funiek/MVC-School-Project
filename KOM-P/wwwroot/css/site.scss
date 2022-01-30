@@ -298,3 +298,15 @@ body > div > div:first-child > div.product-desc > p:first-child {
 .nav-wrapper a:hover {
     color: $primary-orange;
 }
+
+.cart-container {
+    display: block;
+    margin:0 auto 0 auto;
+    min-width: 1250px;
+    min-height: 300px;
+    background-color: $primary-color-light-gray;
+}
+
+.cart-product {
+
+}

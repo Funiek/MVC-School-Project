@@ -12,7 +12,8 @@
         <p>Nazwa produktu: @Html.DisplayFor(model => model.product.Name)</p>
         <p class="SKU">SKU: @Html.DisplayFor(model => model.product.Sku)</p>
         <p>Data wydania: @Html.DisplayFor(model => model.dateOfAdding)</p>
-        <p>Price: @Html.DisplayFor(model => model.price.Price)&nbsp;@Html.DisplayFor(model => model.price.Description)</p>
+        <p>Cena: @Html.DisplayFor(model => model.price.Price)&nbsp;@Html.DisplayFor(model => model.price.Description)</p>
+        <p>Ilość <input asp-for="qty" type="number" step="1" min="1" value="1"/></p>
         <button class="btn add-to-cart-btn effect01">Dodaj do koszyka</button>
     </div>
     <div style="clear:both;"></div>

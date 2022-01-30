@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using KOM_P.Models;
+using KOM_P.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
@@ -6,20 +8,14 @@ namespace KOM_P.Controllers
 {
     public class CartController : Controller
     {
-        public class CartViewModel
-        {
-            public int Id { get; set; }
-            public string Title { get; set; }
-            public decimal Price { get; set; }
-            public decimal PromoPrice { get; set; }
-            public int Qty { get; set; }
-        }
         // GET: CartController
         public ActionResult Index()
         {
-            List<CartViewModel> cartItems = new List<CartViewModel>();
 
-            return View(cartItems);
+            List<CartProduct> cartProducts = SessionService.GetSession<List<CartProduct>>(HttpContext.Session, "CartProducts");
+
+
+            return View(cartProducts);
         }
 
         [HttpPost]

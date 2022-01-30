@@ -53,5 +53,10 @@ namespace KOM_P.Models
         public virtual ICollection<ProductPrice> ProductPrice { get; set; }
         [InverseProperty("Product")]
         public virtual ICollection<WarehouseProduct> WarehouseProduct { get; set; }
+
+        public override string ToString()
+        {
+            return $"{Name}";
+        }
     }
 }
