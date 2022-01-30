@@ -317,12 +317,21 @@ namespace Repository
         {
             string login;
             string email;
+            string name;
+            string surname;
+            string phone;
+            string address;
 
             if (siteUser != null && password != null)
             {
                 login = siteUser.Login;
                 email = siteUser.Email;
-                Database.ExecuteSqlRaw("CreateUser @login={0}, @password={1}, @email={2}", login, password, email);
+                phone = siteUser.Phone;
+                name = siteUser.Name;
+                surname = siteUser.Surname;
+                address = siteUser.Address;
+
+                Database.ExecuteSqlRaw("CreateUser @login={0}, @password={1}, @email={2} ,@name={3},@surname={4},@address={5},@phone={6}", login, password, email,name,surname,address,phone);
             }
         }
 

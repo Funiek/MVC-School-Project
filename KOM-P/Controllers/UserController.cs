@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Repository;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -14,9 +15,13 @@ namespace KOM_P.Controllers
 {
     public class UserController : Controller
     {
-        public class SignInViewModel 
-        { 
+        public class SignInViewModel
+        {
+
+
             public User user { get; set; }
+            
+            [Required(ErrorMessage = "Name length can't be more than 8.") ]
             public string password { get; set; }
         }
             
@@ -82,6 +87,8 @@ namespace KOM_P.Controllers
         [HttpPost]
         public async Task<IActionResult> SignUpAsync(SignInViewModel model)
         {
+            model.ToString();
+
             _db.CreateUser(model.user, model.password);
 
             User user = ValidateUser(model);
