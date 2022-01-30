@@ -21,7 +21,8 @@ namespace KOM_P.Controllers
 
             public User user { get; set; }
             
-            [Required(ErrorMessage = "Name length can't be more than 8.") ]
+            [Required(ErrorMessage = "To pole jest wymagane!") ]
+            [MinLength(6,ErrorMessage ="Hasło jest za krótkie!")]
             public string password { get; set; }
         }
             
