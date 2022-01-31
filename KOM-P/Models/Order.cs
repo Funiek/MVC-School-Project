@@ -27,6 +27,9 @@ namespace KOM_P.Models
         [Column(TypeName = "decimal(18, 2)")]
         public decimal Price { get; set; }
         [Required]
+        [StringLength(100)]
+        public string PriceDescription { get; set; }
+        [Required]
         [StringLength(50)]
         public string PaymentMethod { get; set; }
         [Required]
@@ -37,6 +40,15 @@ namespace KOM_P.Models
         [Required]
         [StringLength(50)]
         public string Status { get; set; }
+        [Required]
+        [StringLength(50)]
+        public string Shipping { get; set; }
+        [Required]
+        [StringLength(50)]
+        public string UserName { get; set; }
+        [Required]
+        [StringLength(50)]
+        public string UserSurname { get; set; }
 
         [ForeignKey(nameof(UserId))]
         [InverseProperty("Order")]
