@@ -14,7 +14,6 @@ namespace KOM_P.Models
         public UserGroup()
         {
             Discount = new HashSet<Discount>();
-            Order = new HashSet<Order>();
             UserUserGroup = new HashSet<UserUserGroup>();
         }
 
@@ -27,8 +26,6 @@ namespace KOM_P.Models
 
         [InverseProperty("UserGroup")]
         public virtual ICollection<Discount> Discount { get; set; }
-        [InverseProperty("UserGroup")]
-        public virtual ICollection<Order> Order { get; set; }
         [InverseProperty("UserGroup")]
         public virtual ICollection<UserUserGroup> UserUserGroup { get; set; }
     }

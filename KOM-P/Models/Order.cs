@@ -21,9 +21,7 @@ namespace KOM_P.Models
         [Column("OrderID")]
         public int OrderId { get; set; }
         [Column("UserID")]
-        public int UserId { get; set; }
-        [Column("UserGroupID")]
-        public int UserGroupId { get; set; }
+        public int? UserId { get; set; }
         [Column(TypeName = "decimal(18, 2)")]
         public decimal Price { get; set; }
         [Required]
@@ -53,9 +51,6 @@ namespace KOM_P.Models
         [ForeignKey(nameof(UserId))]
         [InverseProperty("Order")]
         public virtual User User { get; set; }
-        [ForeignKey(nameof(UserGroupId))]
-        [InverseProperty("Order")]
-        public virtual UserGroup UserGroup { get; set; }
         [InverseProperty("Order")]
         public virtual ICollection<Invoice> Invoice { get; set; }
         [InverseProperty("Order")]

@@ -70,7 +70,10 @@ namespace KOM_P.Controllers
             order.Shipping = checkoutViewModel.order.Shipping;
             order.UserName = checkoutViewModel.order.UserName;
             order.UserSurname = checkoutViewModel.order.UserSurname;
-            
+
+            _db.Add(order);
+            _db.SaveChanges();
+
 
             List<CartProduct> cartProducts = SessionService.GetSession<List<CartProduct>>(HttpContext.Session, "CartProducts");
 
@@ -80,15 +83,17 @@ namespace KOM_P.Controllers
 
             foreach (var cartProduct in cartProducts)
             {
-                Product product = await _db.Product.FirstOrDefaultAsync(m => m.ProductId == cartProduct.Id);
+                Product product = _db.Product.FirstOrDefault(m => m.ProductId == cartProduct.Id);
 
                 ProductOrder productOrder = new ProductOrder();
                 productOrder.ProductId = product.ProductId;
                 productOrder.OrderId = order.OrderId;
-                order.ProductOrder.Add(productOrder);
+                productOrder.Qty = cartProduct.Qty;
+                _db.Add(productOrder);
+                _db.SaveChanges();
             }
-            _db.Add(order);
-            await _db.SaveChangesAsync();
+            
+
             return View();
         }
 
