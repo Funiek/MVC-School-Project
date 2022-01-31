@@ -135,7 +135,7 @@ namespace KOM_P.Controllers
         [HttpPost]
         public async Task<IActionResult> SignUpAsyncToCheckout(SignInViewModel model)
         {
-            _db.CreateUser(model.user, model.password);
+            _db.CreateUser(model.user, Password);
 
             User user = ValidateUser(model);
             if (user != null)
