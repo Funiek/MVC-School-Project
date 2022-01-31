@@ -61,6 +61,9 @@ namespace KOM_P.Controllers
                 index.productLink = ImageService.GetImage(product.Sku, 240, 240);
                 indexViewModels.Add(index);
             }
+
+            ViewData["CategoryId"] = category.CategoryId;
+
             return View(indexViewModels);
         }
 
@@ -80,6 +83,11 @@ namespace KOM_P.Controllers
             }
 
             return View(category);
+        }
+
+        public IActionResult GeneratePDF(int id)
+        {
+            return RedirectToAction("Index", new {id=id});
         }
     }
 }
