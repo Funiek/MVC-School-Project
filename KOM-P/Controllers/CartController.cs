@@ -8,37 +8,33 @@ namespace KOM_P.Controllers
 {
     public class CartController : Controller
     {
+        public class CartViewModel
+        {
+            public CartProduct product { get; set; }
+            public string productLink { get; set; }
+        }
+
         // GET: CartController
         public ActionResult Index()
         {
 
             List<CartProduct> cartProducts = SessionService.GetSession<List<CartProduct>>(HttpContext.Session, "CartProducts");
 
+            if (cartProducts == null) cartProducts = new List<CartProduct>();
 
-            return View(cartProducts);
-        }
+            List<CartViewModel> cartViewProducts = new List<CartViewModel>();
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
+            foreach (var cartProduct in cartProducts)
             {
-                return RedirectToAction(nameof(Index));
+                CartViewModel cartViewModel = new CartViewModel();
+                cartViewModel.product = cartProduct;
+                cartViewModel.productLink = ImageService.GetImage(cartProduct.Sku, 100, 100);
+                cartViewProducts.Add(cartViewModel);
             }
-            catch
-            {
-                return View();
-            }
+
+            return View(cartViewProducts);
         }
 
-        // GET: CartController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: CartController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
@@ -53,25 +49,34 @@ namespace KOM_P.Controllers
             }
         }
 
-        // GET: CartController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
-        }
+            List<CartProduct> cartProducts = SessionService.GetSession<List<CartProduct>>(HttpContext.Session, "CartProducts");
 
-        // POST: CartController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
+            if (cartProducts == null) return View("Index", new List<CartViewModel>());
+
+            List<CartViewModel> cartViewProducts = new List<CartViewModel>();
+
+            CartProduct toRemove = null;
+
+            foreach (var cartProduct in cartProducts)
             {
-                return RedirectToAction(nameof(Index));
+                if(cartProduct.Id == id)
+                {
+                    toRemove = cartProduct;
+                    continue;
+                }
+                CartViewModel cartViewModel = new CartViewModel();
+                cartViewModel.product = cartProduct;
+                cartViewModel.productLink = ImageService.GetImage(cartProduct.Sku, 100, 100);
+                cartViewProducts.Add(cartViewModel);
             }
-            catch
-            {
-                return View();
-            }
+
+            cartProducts.Remove(toRemove);
+
+            SessionService.SetSession(HttpContext.Session, "CartProducts", cartProducts);
+
+            return View("Index", cartViewProducts);
         }
     }
 }

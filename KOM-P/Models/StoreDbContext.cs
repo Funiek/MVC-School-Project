@@ -142,12 +142,6 @@ namespace Repository
 
                 entity.Property(e => e.Status).IsUnicode(false);
 
-                entity.HasOne(d => d.UserGroup)
-                    .WithMany(p => p.Order)
-                    .HasForeignKey(d => d.UserGroupId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Order_UserGroup");
-
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Order)
                     .HasForeignKey(d => d.UserId)

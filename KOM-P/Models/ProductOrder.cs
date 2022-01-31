@@ -19,6 +19,7 @@ namespace KOM_P.Models
         public int ProductId { get; set; }
         [Column("OrderID")]
         public int OrderId { get; set; }
+        public int Qty { get; set; }
 
         [ForeignKey(nameof(OrderId))]
         [InverseProperty("ProductOrder")]

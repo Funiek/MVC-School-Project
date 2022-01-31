@@ -2,6 +2,7 @@
 $primary-color-light-gray: #fefefe;
 $primary-orange: #f15025;
 $darkest-gray: #191919;
+$border-color: #4a4646;
 
 body {
     background-color: $background-color-darker-gray;
@@ -113,10 +114,10 @@ body > div > div:first-child > div.product-desc > p:first-child {
 }
 
 .product {
-    margin-bottom:20px;
+    margin-bottom: 20px;
     display: block;
     width: 270px;
-    border: 1px solid #4a4646;
+    border: 1px solid $border-color;
     border-radius: 5px;
 }
 
@@ -302,11 +303,107 @@ body > div > div:first-child > div.product-desc > p:first-child {
 .cart-container {
     display: block;
     margin:0 auto 0 auto;
-    min-width: 1250px;
-    min-height: 300px;
+    padding:20px 40px 20px 40px;
     background-color: $primary-color-light-gray;
 }
 
 .cart-product {
+    display: flex;
+    align-items: center;
+}
 
+.cart-img {
+    width: 100px;
+    height: 100px;
+    background-color: #000;
+}
+
+.cart-product-center {
+    top: 50%;
+    transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+}
+
+.cart-product-anchor {
+    text-decoration: none;
+    color: #000;
+}
+
+.cart-product-anchor:hover {
+    text-decoration: none;
+    color: #000;
+}
+
+.cart-checkout-btn {
+    float:right;
+    margin-top: 20px;
+    margin-right: 40px;
+}
+
+.cart-promo-code-wrapper {
+    margin-top: 40px;
+    border-top: 2px solid $border-color;
+}
+
+.describe-buyer-left {
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.describe-buyer-right {
+    padding-left: 30px;
+    padding-right: 30px;
+    border-left: 2px solid $border-color;
+}
+
+.without-login-btn {
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 45px;
+    position: relative;
+    text-decoration: none;
+    text-transform: uppercase;
+    width: 100%;
+}
+
+.without-login-btn:hover {
+    text-decoration: none;
+}
+
+.describe-buyer-left {
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.describe-buyer-right {
+    padding-left: 30px;
+    padding-right: 30px;
+    border-left: 2px solid $border-color;
+}
+
+.checkout-container {
+    padding:20px 40px 20px 40px;
+}
+
+.checkout-container-left {
+    border-right: 2px solid $border-color;
+}
+
+.checkout-container-right {
+    padding: 0 20px 0 20px;
+}
+
+.checkout-product {
+    display: flex;
+    align-items: center;
+}
+
+.checkout-user-data-row {
+    border: 1px solid $border-color;
+    padding: 10px 0;
 }

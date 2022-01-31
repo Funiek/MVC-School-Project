@@ -70,7 +70,7 @@ namespace KOM_P.Controllers
             {
                 foreach (CartProduct tempProduct in cartProducts)
                 {
-                    tempProduct.Qty += temp.qty;
+                    if(tempProduct.Id.Equals(temp.product.ProductId)) tempProduct.Qty += temp.qty;
                 }
             }
             else
@@ -80,6 +80,7 @@ namespace KOM_P.Controllers
                 cartProduct.Id = product.ProductId;
                 cartProduct.Name = product.Name;
                 cartProduct.Price = 199.00M;
+                cartProduct.Sku = product.Sku;
                 cartProduct.PromoPrice = 129.99M;
                 cartProducts.Add(cartProduct);
             }
