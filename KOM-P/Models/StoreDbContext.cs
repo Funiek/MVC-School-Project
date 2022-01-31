@@ -299,13 +299,11 @@ namespace Repository
         }
 
         //USER
-        public User GetUser(User siteUser, string password)
+        public User GetUser(String login, string password)
         {
-            string login;
-
-            if (siteUser != null && password != null)
+  
+            if ( password != null && login != null)
             {
-                login = siteUser.Login;
                 User user = null;
                 user = User.FromSqlRaw("GetUser @login={0}, @password={1}", login, password).ToListAsync().Result.FirstOrDefault();
                 return (user != null) ? user : null;

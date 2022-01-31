@@ -18,14 +18,23 @@ namespace KOM_P.Controllers
         public class SignInViewModel
         {
 
+            [Required(ErrorMessage = "To pole jest wymagane!")]
+            [MinLength(6, ErrorMessage = "Hasło jest za krótkie!")]
+            public String PasswordVM { get; set; }
 
             public User user { get; set; }
-            
-            [Required(ErrorMessage = "To pole jest wymagane!") ]
-            [MinLength(6,ErrorMessage ="Hasło jest za krótkie!")]
-            public string password { get; set; }
+
+
         }
-            
+
+        [Required(ErrorMessage = "To pole jest wymagane!")]
+        [StringLength(30)]
+        public String Login { get; set; }
+
+        [Required(ErrorMessage = "To pole jest wymagane!")]
+        [MinLength(6, ErrorMessage = "Hasło jest za krótkie!")]
+        public String Password { get; set; }
+
         private readonly ILogger<UserController> _logger;
         private StoreDbContext _db;
 
@@ -36,23 +45,40 @@ namespace KOM_P.Controllers
         }
         private User ValidateUser(SignInViewModel model)
         {
-
-            User _user = _db.GetUser(model.user, model.password);
+            User _user=null;
+            if (model.user!=null && model.user.Login != null)
+            {
+                _user = _db.GetUser(model.user.Login, model.PasswordVM);
+            }
+            else
+            {
+                _db.GetUser(Login, model.PasswordVM);
+            }
             return (_user != null) ? _user : null;
+        }
+        private User ValidateUser(String login, String password)
+        {
+            User _user = _db.GetUser(login, password);
+
+            return _user;
         }
 
         [HttpGet]
         public IActionResult SignIn()
         {
+
+            Console.WriteLine("213123");
             ViewBag.SignIn = TempData["SignIn"];
             return View();
         }
 
-        [HttpPost]
-        public async Task<IActionResult> SignIn(SignInViewModel model)
-        {
 
-            User user = ValidateUser(model);
+
+        [HttpPost]
+        public async Task<IActionResult> SignIn(String Login, String Password)
+        {
+            Console.WriteLine("SignIn");
+            User user = ValidateUser(Login,Password);
             if(user!=null)
             {
                 List<Claim> claims;
@@ -67,7 +93,7 @@ namespace KOM_P.Controllers
                 {
                     claims = new List<Claim>()
                     {
-                        new Claim(ClaimTypes.Name, model.user.Login)
+                        new Claim(ClaimTypes.Name, Login)
                     };
                 }
                 var claimsIdentity = new ClaimsIdentity(claims, "CookieAuthentication");
@@ -77,9 +103,10 @@ namespace KOM_P.Controllers
             }
 
             TempData["SignIn"] = "Błąd Logowania!";
+            
             return RedirectToAction("SignIn","User");
         }
-
+        
         [HttpGet]
         public IActionResult SignUp()
         {
@@ -90,7 +117,7 @@ namespace KOM_P.Controllers
         {
             model.ToString();
 
-            _db.CreateUser(model.user, model.password);
+            _db.CreateUser(model.user, model.PasswordVM);
 
             User user = ValidateUser(model);
             if (user != null)

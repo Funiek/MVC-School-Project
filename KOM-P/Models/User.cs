@@ -24,7 +24,7 @@ namespace KOM_P.Models
         [Key]
         [Column("UserID")]
         public int UserId { get; set; }
-        [Required(ErrorMessage ="Pole Login jest wymagane!")]
+        [Required(ErrorMessage = "To pole jest wymagane!")]
         [StringLength(30)]
         public string Login { get; set; }
         [Required]
@@ -32,7 +32,7 @@ namespace KOM_P.Models
         public byte[] PasswordHash { get; set; }
         public bool? Permission { get; set; }
         [StringLength(100)]
-        [Required(ErrorMessage = "Pole Email jest wymagane!")]
+        [Required(ErrorMessage = "To pole jest wymagane!")]
         [EmailAddress(ErrorMessage = "Fraza nie przypomina adresu email")]
         public string Email { get; set; }
         [Required(ErrorMessage = "To pole jest wymagane!")]

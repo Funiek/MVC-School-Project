@@ -1,4 +1,4 @@
-﻿@model KOM_P.Controllers.UserController.SignInViewModel
+﻿@model KOM_P.Controllers.UserController
 @{
     ViewData["Title"] = "SignIn";
 }
@@ -9,7 +9,7 @@
     @using (Html.BeginForm("SignIn", "User", FormMethod.Post))
     {
         <div class="container">
-            <form class="form-horizontal" method="post">
+            <!--form class="form-horizontal" method="post"-->
                 <div class="form-group">
                     <div class="label-custom col-sm-12">
                         @ViewBag.SignIn
@@ -17,25 +17,26 @@
                 </div>
                 <div class="form-group">
                     <div class="label-custom col-sm-12">
-                        <label asp-for="user.Login" class="control-label"></label>
+                        <label asp-for="Login" class="control-label"></label>
                     </div>
                     <div class="col-sm-3">
-                        <input asp-for="user.Login" class="form-control form-input-text-custome">
+                        <input asp-for="Login" class="form-control form-input-text-custome">
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="label-custom col-sm-12"><label asp-for="password" class="control-label col-sm2">Password</label></div>
+                    <div class="label-custom col-sm-12"><label asp-for="Password" class="control-label col-sm2">Password</label></div>
                     <div class="col-sm-3">
-                        <input type="password" asp-for="password" class="form-control form-input-text-custome">
+                        <input type="password" asp-for="Password" class="form-control form-input-text-custome">
                     </div>
                 </div>
                 <div class="form-group col-sm-12 form-submit-button-custom">
                     <div class=" col-sm-7">
-                        <button class="btn shop-btn effect01">Zatwierdź</button>
+                        <input type="submit" class="btn" id="btnProceed" value="Zatwierdź" />
+                        <!--input type="submit" class="btn shop-btn effect01" value=""/-->
                     </div>
                     <div class=" col-sm-5"></div>
                 </div>
-            </form>
+            <!--form-->
         </div>
     }
 </div>
