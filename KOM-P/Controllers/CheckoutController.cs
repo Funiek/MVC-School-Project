@@ -22,6 +22,12 @@ namespace KOM_P.Controllers
         {
             public List<CheckoutProductViewModel> checkoutProducts { get; set; }
             public Order order { get; set; }
+            public string name { get; set; }
+            public string surname { get; set; }
+            public string address { get; set; }
+            public string phone { get; set; }
+            public string email { get; set; }
+
         }
 
         private readonly ILogger<CheckoutController> _logger;
@@ -54,22 +60,40 @@ namespace KOM_P.Controllers
 
             checkoutViewModel.checkoutProducts = checkoutProducts;
 
+            int userID = SessionService.GetSession<int>(HttpContext.Session, "UserID");
+            if (userID>0)
+            {
+                User user = _db.User.FirstOrDefault(m => m.UserId == userID);
+                checkoutViewModel.name = user.Name;
+                checkoutViewModel.surname = user.Surname;
+                checkoutViewModel.email = user.Email;
+                checkoutViewModel.phone = user.Phone;
+                checkoutViewModel.address = user.Address;
+            }
+
             return View(checkoutViewModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> HandleTransactionAsync(CheckoutViewModel checkoutViewModel)
+        public IActionResult HandleTransaction(CheckoutViewModel checkoutViewModel)
         {
             Order order = new Order();
-            order.Address = checkoutViewModel.order.Address;
+            order.Address = checkoutViewModel.address;
             order.Price = 199.99M;
             order.PriceDescription = "PLN";
             order.PaymentMethod = checkoutViewModel.order.PaymentMethod;
             order.OrderDate = System.DateTime.Today;
             order.Status = "Potwierdzone";
             order.Shipping = checkoutViewModel.order.Shipping;
-            order.UserName = checkoutViewModel.order.UserName;
-            order.UserSurname = checkoutViewModel.order.UserSurname;
+            order.UserName = checkoutViewModel.name;
+            order.UserSurname = checkoutViewModel.surname;
+
+            int userID = SessionService.GetSession<int>(HttpContext.Session, "UserID");
+            if (userID > 0)
+            {
+                User user = _db.User.FirstOrDefault(m => m.UserId == userID);
+                order.User = user;
+            }
 
             _db.Add(order);
             _db.SaveChanges();
@@ -92,13 +116,18 @@ namespace KOM_P.Controllers
                 _db.Add(productOrder);
                 _db.SaveChanges();
             }
-            
+
 
             return View();
         }
 
         public IActionResult DescribeBuyer()
         {
+            int userID = SessionService.GetSession<int>(HttpContext.Session, "UserID");
+            if (userID > 0)
+            {
+                return RedirectToAction("Index");
+            }
             return View();
         }
     }

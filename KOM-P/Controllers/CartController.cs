@@ -2,7 +2,12 @@
 using KOM_P.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Repository;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace KOM_P.Controllers
 {
@@ -10,29 +15,95 @@ namespace KOM_P.Controllers
     {
         public class CartViewModel
         {
+            public List<CartProductModel> cartModels = new List<CartProductModel>();
+            public List<PopularProductModel> popularProducts = new List<PopularProductModel>();
+        }
+
+        public class CartProductModel
+        {
             public CartProduct product { get; set; }
             public string productLink { get; set; }
         }
 
-        // GET: CartController
-        public ActionResult Index()
+        public class PopularProductModel
         {
+            public Product product { get; set; }
+            public string productLink { get; set; }
+            public ProductPrice price { get; set; }
+        }
+
+        private readonly ILogger<CartController> _logger;
+        private StoreDbContext _db;
+
+        public CartController(ILogger<CartController> logger, StoreDbContext db)
+        {
+            _db = db;
+            _logger = logger;
+        }
+
+        // GET: CartController
+        public async Task<ActionResult> IndexAsync()
+        {
+            CartViewModel cartView = new CartViewModel();
 
             List<CartProduct> cartProducts = SessionService.GetSession<List<CartProduct>>(HttpContext.Session, "CartProducts");
 
             if (cartProducts == null) cartProducts = new List<CartProduct>();
 
-            List<CartViewModel> cartViewProducts = new List<CartViewModel>();
+            List<CartProductModel> cartViewProducts = new List<CartProductModel>();
 
             foreach (var cartProduct in cartProducts)
             {
-                CartViewModel cartViewModel = new CartViewModel();
+                CartProductModel cartViewModel = new CartProductModel();
                 cartViewModel.product = cartProduct;
                 cartViewModel.productLink = ImageService.GetImage(cartProduct.Sku, 100, 100);
                 cartViewProducts.Add(cartViewModel);
             }
 
-            return View(cartViewProducts);
+            cartView.cartModels = cartViewProducts;
+
+            List<PopularProductModel> indexViewModels = new List<PopularProductModel>();
+            PopularProductModel index;
+            var productIds = (from productOrder in _db.ProductOrder
+                                      group productOrder by productOrder.ProductId into order
+                                      orderby order.Count() descending
+                                      select new {ProductID = order.Key, ProductCount = order.Count()}).Take(12).ToList();
+
+            foreach (var item in productIds)
+            {
+                Product product = await _db.Product.FirstOrDefaultAsync(m => m.ProductId == item.ProductID);
+                //_db.Entry(product).Collection(c => c.ProductPrice).Query().Where(p => p.ProductId == product.ProductId).;
+                index = new PopularProductModel();
+                index.product = product;
+                if (ViewData["Language"].Equals("PL")) index.price = _db.Entry(product).Collection(c => c.ProductPrice).Query().
+                                                 Where(p => p.ProductId == product.ProductId && p.Description == "PLN").FirstOrDefault();
+                else if (ViewData["Language"].Equals("DE")) index.price = _db.Entry(product).Collection(c => c.ProductPrice).Query().
+                                                Where(p => p.ProductId == product.ProductId && p.Description == "GBP").FirstOrDefault();
+                else if (ViewData["Language"].Equals("GB")) index.price = _db.Entry(product).Collection(c => c.ProductPrice).Query().
+                                                Where(p => p.ProductId == product.ProductId && p.Description == "EUR").FirstOrDefault();
+                else index.price = _db.Entry(product).Collection(c => c.ProductPrice).Query().
+                                   Where(p => p.ProductId == product.ProductId && p.Description == "PLN").FirstOrDefault();
+
+                if (index.price == null) index.price = _db.Entry(product).Collection(c => c.ProductPrice).Query().
+                                           Where(p => p.ProductId == product.ProductId && p.Description == "PLN").FirstOrDefault();
+                if (index.price == null)
+                {
+                    index.price = new ProductPrice()
+                    {
+                        Price = 0,
+                        ProductId = 0,
+                        Description = ""
+                    };
+                }
+
+
+                index.productLink = ImageService.GetImage(product.Sku, 240, 240);
+                indexViewModels.Add(index);
+            }
+
+            cartView.popularProducts = indexViewModels;
+
+            return View(cartView);
         }
 
         [HttpPost]
@@ -41,7 +112,7 @@ namespace KOM_P.Controllers
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(IndexAsync));
             }
             catch
             {
@@ -51,11 +122,13 @@ namespace KOM_P.Controllers
 
         public ActionResult Delete(int id)
         {
+            CartViewModel cartView = new CartViewModel();
+
             List<CartProduct> cartProducts = SessionService.GetSession<List<CartProduct>>(HttpContext.Session, "CartProducts");
 
             if (cartProducts == null) return View("Index", new List<CartViewModel>());
 
-            List<CartViewModel> cartViewProducts = new List<CartViewModel>();
+            List<CartProductModel> cartViewProducts = new List<CartProductModel>();
 
             CartProduct toRemove = null;
 
@@ -66,7 +139,7 @@ namespace KOM_P.Controllers
                     toRemove = cartProduct;
                     continue;
                 }
-                CartViewModel cartViewModel = new CartViewModel();
+                CartProductModel cartViewModel = new CartProductModel();
                 cartViewModel.product = cartProduct;
                 cartViewModel.productLink = ImageService.GetImage(cartProduct.Sku, 100, 100);
                 cartViewProducts.Add(cartViewModel);
@@ -76,7 +149,9 @@ namespace KOM_P.Controllers
 
             SessionService.SetSession(HttpContext.Session, "CartProducts", cartProducts);
 
-            return View("Index", cartViewProducts);
+            cartView.cartModels = cartViewProducts;
+
+            return View("Index", cartView);
         }
     }
 }

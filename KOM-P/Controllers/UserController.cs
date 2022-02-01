@@ -1,5 +1,5 @@
-﻿
-using KOM_P.Models;
+﻿using KOM_P.Models;
+using KOM_P.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -23,8 +23,12 @@ namespace KOM_P.Controllers
             public String PasswordVM { get; set; }
 
             public User user { get; set; }
+        }
 
-
+        public class DetailsViewModel
+        {
+            public User user { get; set; }
+            public int itemsOnPage { get; set; }
         }
 
         [Required(ErrorMessage = "To pole jest wymagane!")]
@@ -45,8 +49,8 @@ namespace KOM_P.Controllers
         }
         private User ValidateUser(SignInViewModel model)
         {
-            User _user=null;
-            if (model.user!=null && model.user.Login != null)
+            User _user = null;
+            if (model.user != null && model.user.Login != null)
             {
                 _user = _db.GetUser(model.user.Login, model.PasswordVM);
             }
@@ -75,14 +79,14 @@ namespace KOM_P.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> SignIn(String Login, String Password)
+        public async Task<IActionResult> SignIn(string Login, string Password)
         {
             Console.WriteLine("SignIn");
-            User user = ValidateUser(Login,Password);
-            if(user!=null)
+            User user = ValidateUser(Login, Password);
+            if (user != null)
             {
                 List<Claim> claims;
-                if (user.Permission==true)
+                if (user.Permission == true)
                 {
                     claims = new List<Claim>()
                     {
@@ -98,15 +102,16 @@ namespace KOM_P.Controllers
                 }
                 var claimsIdentity = new ClaimsIdentity(claims, "CookieAuthentication");
                 await HttpContext.SignInAsync("CookieAuthentication", new ClaimsPrincipal(claimsIdentity));
+                SessionService.SetSession(HttpContext.Session, "UserID", user.UserId);
                 TempData["SignIn"] = "";
                 return RedirectToAction("Index", "Home");
             }
 
             TempData["SignIn"] = "Błąd Logowania!";
-            
-            return RedirectToAction("SignIn","User");
+
+            return RedirectToAction("SignIn", "User");
         }
-        
+
         [HttpGet]
         public IActionResult SignUp()
         {
@@ -128,32 +133,74 @@ namespace KOM_P.Controllers
                 };
                 var claimsIdentity = new ClaimsIdentity(claims, "CookieAuthentication");
                 await HttpContext.SignInAsync("CookieAuthentication", new ClaimsPrincipal(claimsIdentity));
+                SessionService.SetSession(HttpContext.Session, "UserID", user.UserId);
             }
             return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
-        public async Task<IActionResult> SignUpAsyncToCheckout(SignInViewModel model)
+        public async Task<IActionResult> SignInToCheckout(string Login, string Password)
         {
-            _db.CreateUser(model.user, Password);
+            User user = ValidateUser(Login, Password);
 
-            User user = ValidateUser(model);
             if (user != null)
             {
-                var claims = new List<Claim>()
+                List<Claim> claims;
+                if (user.Permission == true)
                 {
-                new Claim(ClaimTypes.Name, model.user.Login)
-                };
+                    claims = new List<Claim>()
+                    {
+                    new Claim(ClaimTypes.Name, "Admin")
+                    };
+                }
+                else
+                {
+                    claims = new List<Claim>()
+                    {
+                        new Claim(ClaimTypes.Name, Login)
+                    };
+                }
                 var claimsIdentity = new ClaimsIdentity(claims, "CookieAuthentication");
                 await HttpContext.SignInAsync("CookieAuthentication", new ClaimsPrincipal(claimsIdentity));
+                SessionService.SetSession(HttpContext.Session, "UserID", user.UserId);
+                TempData["SignIn"] = "";
+
+                return RedirectToAction("Index", "Checkout");
             }
-            return RedirectToAction("Index", "Checkout");
+
+            TempData["SignIn"] = "Błąd Logowania!";
+
+            return RedirectToAction("SignIn", "User");
         }
 
         public async Task<IActionResult> SignOut()
         {
             await HttpContext.SignOutAsync("CookieAuthentication");
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        public IActionResult Details()
+        {
+            int userID = SessionService.GetSession<int>(HttpContext.Session, "UserID");
+            User user = _db.User.FirstOrDefault(m => m.UserId == userID);
+
+            DetailsViewModel model = new DetailsViewModel();
+
+            model.user = user;
+
+            string iOPstring = SessionService.GetSession<string>(HttpContext.Session, "ItemsOnPage");
+            model.itemsOnPage = int.Parse(iOPstring);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult ChangeItemsOnPage(int? itemsOnPage)
+        {
+            SessionService.SetSession(HttpContext.Session, "ItemsOnPage", itemsOnPage);
+
+            return RedirectToAction("Details");
         }
     }
 }

@@ -29,9 +29,14 @@ namespace KOM_P.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(int? id)
         {
+            string iOPstring = SessionService.GetSession<string>(HttpContext.Session, "ItemsOnPage");
+            int itemsOnPage = int.Parse(iOPstring);
             List<IndexViewModel> indexViewModels = new List<IndexViewModel>();
             IndexViewModel index;
-            List<Product> products = await _context.Product.Where(e=>e.CategoryId==id).ToListAsync();
+            List<Product> products; 
+
+            products = (itemsOnPage>0)?await _context.Product.Where(e => e.CategoryId == id).Take(itemsOnPage).ToListAsync() : await _context.Product.Where(e => e.CategoryId == id).ToListAsync();
+
             Category category = await _context.Category.FirstOrDefaultAsync(m => m.CategoryId == id);
             ViewData["CategoryName"] = category.Name;
             foreach (Product product in products)
@@ -83,6 +88,45 @@ namespace KOM_P.Controllers
             }
 
             return View(category);
+        }
+
+        public IActionResult Promo()
+        {
+            List<IndexViewModel> indexViewModels = new List<IndexViewModel>();
+            IndexViewModel index;
+            List<Product> products = (from product in _context.Product
+                                      where product.HavePromoPrice == true
+                                      select product).ToList();
+
+            foreach (Product product in products)
+            {
+                index = new IndexViewModel();
+                index.product = product;
+                if (ViewData["Language"].Equals("PL")) index.price = _context.Entry(product).Collection(c => c.ProductPrice).Query().
+                                                 Where(p => p.ProductId == product.ProductId && p.Description == "PLN").FirstOrDefault();
+                else if (ViewData["Language"].Equals("DE")) index.price = _context.Entry(product).Collection(c => c.ProductPrice).Query().
+                                                Where(p => p.ProductId == product.ProductId && p.Description == "GBP").FirstOrDefault();
+                else if (ViewData["Language"].Equals("GB")) index.price = _context.Entry(product).Collection(c => c.ProductPrice).Query().
+                                                Where(p => p.ProductId == product.ProductId && p.Description == "EUR").FirstOrDefault();
+                else index.price = _context.Entry(product).Collection(c => c.ProductPrice).Query().
+                                   Where(p => p.ProductId == product.ProductId && p.Description == "PLN").FirstOrDefault();
+
+                if (index.price == null) index.price = _context.Entry(product).Collection(c => c.ProductPrice).Query().
+                                           Where(p => p.ProductId == product.ProductId && p.Description == "PLN").FirstOrDefault();
+                if (index.price == null)
+                {
+                    index.price = new ProductPrice()
+                    {
+                        Price = 0,
+                        ProductId = 0,
+                        Description = ""
+                    };
+                }
+                index.productLink = ImageService.GetImage(product.Sku, 240, 240);
+                indexViewModels.Add(index);
+            }
+
+            return View(indexViewModels);
         }
 
         public IActionResult GeneratePDF(int id)

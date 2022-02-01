@@ -38,13 +38,18 @@ namespace KOM_P.Controllers
             if (visited == null)
             {
                 _db.IncrementCounter();
-                HttpContext.Session.SetString("Visited", "Yes"); 
+                HttpContext.Session.SetString("Visited", "Yes");
+                SessionService.SetSession(HttpContext.Session, "ItemsOnPage", "0");
+                SessionService.SetSession(HttpContext.Session, "UserID", 0);
             }
 
             ViewData["Permission"] = true;
             List<IndexViewModel> indexViewModels = new List<IndexViewModel>();
             IndexViewModel index;
-            List<Product> products = _db.GetProducts(4);
+            List<Product> products = (from product in _db.Product
+                         orderby product.AddDate descending
+                         select product).Take(4).ToList();
+
             foreach (Product product in products)
             {
                 //_db.Entry(product).Collection(c => c.ProductPrice).Query().Where(p => p.ProductId == product.ProductId).;

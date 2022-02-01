@@ -24,13 +24,16 @@
             <li>
                 @Html.ActionLink("Płyty Główne", "Index", "Categories", new { id = 7 })
             </li>
+            <li>
+                @Html.ActionLink("PROMOCJE", "Promo", "Categories")
+            </li>
         }
     </ul>
     <ul class="nav-wrapper float-right">
         @if (User.Identity.IsAuthenticated)
         {
             <li>
-                Witaj @Html.Raw(User.Identity.Name)
+                @Html.ActionLink("Witaj "+@Html.Raw(User.Identity.Name), "Details", "User")
             </li>
             @if (User.Identity.Name.Equals("Admin"))
             {

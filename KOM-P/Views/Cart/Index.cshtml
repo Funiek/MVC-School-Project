@@ -1,4 +1,4 @@
-﻿@model IEnumerable<KOM_P.Controllers.CartController.CartViewModel>
+﻿@model KOM_P.Controllers.CartController.CartViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -17,7 +17,7 @@
         <div class="col-md-2 col-xs-2">Ilość</div>
         <div class="col-md-1 col-xs-1">Usuń</div>
     </div>
-    @foreach (var item in Model)
+    @foreach (var item in Model.cartModels)
     {
     <div class="cart-product row">
         <div class="col-md-1 col-xs-1"><img class="cart-img" src="@Html.Raw(item.productLink)" alt="Zdjęcie" /></div>
@@ -39,5 +39,31 @@
         <div><input type="text" placeholder="Kod promocyjny" /></div>
         <button style="margin-top:10px;" class="btn add-to-cart-btn effect01">Zatwierdź</button>
     }
+    </div>
+    <div class="promo-list">
+    <div class="promo-list-title">Popularne produkty</div>
+    <div class="promo-list-wrapper">
+        <div class="row">
+            @foreach (var promoProduct in Model.popularProducts)
+            {
+                <div class="col-xs-12 col-md-3 col-lg-3">
+                    <div class="product">
+                        <div class="product-img">
+                            <a href="@Url.Action("Details","Products")/@Html.Raw(promoProduct.product.ProductId)"><img src="@Html.Raw(promoProduct.productLink)" alt="Zdjęcie" /></a>
+                        </div>
+                        <div class="product-title">
+                            @Html.Raw(promoProduct.product.Name)
+                        </div>
+                        <div class="product-price">
+                            @Html.Raw($"{promoProduct.price.Price.ToString()}&nbsp;{promoProduct.price.Description}")
+                        </div>
+                        <div class="product-special-price">
+                            99,99&nbsp;
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
     </div>
 </div>

@@ -1,15 +1,13 @@
-﻿@using KOM_P.Models
-@model List<KOM_P.Controllers.HomeController.IndexViewModel>
+﻿@model IEnumerable<KOM_P.Controllers.CategoriesController.IndexViewModel>
+
 @{
-    ViewBag.Title = "Strona Główna";
+    ViewData["Title"] = "Promocje";
 }
 
-<div class="banner">
-    <a href="#"><img src="~/img/WYSIWYG/index-banner.jpg" /></a>
-</div>
+<h1 class="category-name">PROMOCJE</h1>
 
 <div class="promo-list">
-    <div class="promo-list-title">Nowości</div>
+    <div class="promo-list-title">Polecamy</div>
     <div class="promo-list-wrapper">
         <div class="row">
             @foreach (var promoProduct in Model)
@@ -26,11 +24,12 @@
                             @Html.Raw($"{promoProduct.price.Price.ToString()}&nbsp;{promoProduct.price.Description}")
                         </div>
                         <div class="product-special-price">
-                            99,99&nbsp;
+                            99,99&nbsp;PLN
                         </div>
                     </div>
                 </div>
             }
         </div>
     </div>
+    <div style="padding-left:20px;padding-right:20px;" class="float-left">@Html.ActionLink("TYMCZASOWE MIEJSCE NA PDF", "GeneratePDF", "Categories", new { id = ViewData["CategoryId"] }, new { @class = "btn add-to-cart-btn effect01" })</div>
 </div>
