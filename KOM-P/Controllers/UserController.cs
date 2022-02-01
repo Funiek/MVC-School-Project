@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Repository;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Security.Claims;
@@ -20,6 +21,8 @@ namespace KOM_P.Controllers
 
             [Required(ErrorMessage = "To pole jest wymagane!")]
             [MinLength(6, ErrorMessage = "Hasło jest za krótkie!")]
+
+            [DisplayName("Hasło")]
             public String PasswordVM { get; set; }
 
             public User user { get; set; }
@@ -38,10 +41,12 @@ namespace KOM_P.Controllers
 
         [Required(ErrorMessage = "To pole jest wymagane!")]
         [StringLength(30)]
+        [DisplayName("Login")]
         public String Login { get; set; }
 
         [Required(ErrorMessage = "To pole jest wymagane!")]
         [MinLength(6, ErrorMessage = "Hasło jest za krótkie!")]
+        [DisplayName("Hasło")]
         public String Password { get; set; }
 
         private readonly ILogger<UserController> _logger;

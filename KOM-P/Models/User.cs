@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -26,6 +27,8 @@ namespace KOM_P.Models
         public int UserId { get; set; }
         [Required(ErrorMessage = "To pole jest wymagane!")]
         [StringLength(30)]
+
+        [DisplayName("Login")]
         public string Login { get; set; }
         [Required]
         [MaxLength(32)]
@@ -34,6 +37,8 @@ namespace KOM_P.Models
         [StringLength(100)]
         [Required(ErrorMessage = "To pole jest wymagane!")]
         [EmailAddress(ErrorMessage = "Fraza nie przypomina adresu email")]
+
+        [DisplayName("Emial")]
         public string Email { get; set; }
         [Required(ErrorMessage = "To pole jest wymagane!")]
         [StringLength(100)]
@@ -42,14 +47,20 @@ namespace KOM_P.Models
         [Required(ErrorMessage = "To pole jest wymagane!")]
         [StringLength(100)]
         [MinLength(2,ErrorMessage ="Nazwisko jest za krótkie!")]
+
+        [DisplayName("Nazwisko")]
         public string Surname { get; set; }
         [Required(ErrorMessage = "To pole jest wymagane!")]
         [StringLength(100)]
         [MinLength(5, ErrorMessage = "Adres jest za krótki!")]
+
+        [DisplayName("Adres")]
         public string Address { get; set; }
         [StringLength(13)]
         [Required(ErrorMessage = "To pole jest wymagane!")]
         [MinLength(9, ErrorMessage = "Telefon jest za krótki!")]
+
+        [DisplayName("Telefon")]
         public string Phone { get; set; }
 
         [InverseProperty("User")]
