@@ -47,6 +47,7 @@ namespace KOM_P.Controllers
             List<IndexViewModel> indexViewModels = new List<IndexViewModel>();
             IndexViewModel index;
             List<Product> products = (from product in _db.Product
+                                      where product.Visible == true
                          orderby product.AddDate descending
                          select product).Take(4).ToList();
 

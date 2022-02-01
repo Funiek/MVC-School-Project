@@ -71,7 +71,7 @@ namespace KOM_P.Controllers
 
             foreach (var item in productIds)
             {
-                Product product = await _db.Product.FirstOrDefaultAsync(m => m.ProductId == item.ProductID);
+                Product product = await _db.Product.FirstOrDefaultAsync(m => m.ProductId == item.ProductID && m.Visible == true);
                 //_db.Entry(product).Collection(c => c.ProductPrice).Query().Where(p => p.ProductId == product.ProductId).;
                 index = new PopularProductModel();
                 index.product = product;

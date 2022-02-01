@@ -35,7 +35,7 @@ namespace KOM_P.Controllers
             IndexViewModel index;
             List<Product> products; 
 
-            products = (itemsOnPage>0)?await _context.Product.Where(e => e.CategoryId == id).Take(itemsOnPage).ToListAsync() : await _context.Product.Where(e => e.CategoryId == id).ToListAsync();
+            products = (itemsOnPage>0)?await _context.Product.Where(e => e.CategoryId == id && e.Visible == true).Take(itemsOnPage).ToListAsync() : await _context.Product.Where(e => e.CategoryId == id && e.Visible == true).ToListAsync();
 
             Category category = await _context.Category.FirstOrDefaultAsync(m => m.CategoryId == id);
             ViewData["CategoryName"] = category.Name;

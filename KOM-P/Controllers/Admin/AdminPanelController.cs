@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Net.Mail;
 using System.Threading.Tasks;
 using System.Xml;
 
@@ -25,6 +26,10 @@ namespace KOM_P.Controllers.Admin
         public class IndexViewModel
         {
             public int counter { get; set; }
+        }
+        public class MailViewModel
+        {
+            public string html { get; set; }
         }
         public IActionResult Index()
         {
@@ -129,6 +134,66 @@ namespace KOM_P.Controllers.Admin
             }
 
             return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult Mail()
+        {
+            MailViewModel mailViewModel = new MailViewModel();
+
+            return View(mailViewModel);
+        }
+
+        [HttpPost]
+        public IActionResult Mail(MailViewModel mail)
+        {
+            SendEmail(mail.html);
+
+            return RedirectToAction("Index");
+        }
+
+        private static void SendEmail(string body)
+        {
+            string email = "mailkomp2022@gmail.com";
+            string password = "2022kompmail";
+
+            SmtpClient client = new SmtpClient()
+            {
+                Port = 587,
+                Host = "smtp.gmail.com",
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential()
+                {
+                    UserName = email,
+                    Password = password
+                }
+            };
+
+            MailAddress fromMailAddress = new MailAddress(email, "KOMP");
+            MailAddress toMailAddress = new MailAddress("funkowski.krzysztof@gmail.com", "Krzysztof Funkowski");
+
+            MailMessage message = new MailMessage()
+            {
+                From = fromMailAddress,
+                Subject = "Zespół PanDa3 pozdrawia",
+                Body = body,
+                IsBodyHtml = true
+            };
+
+            message.To.Add(toMailAddress);
+
+            try
+            {
+                client.Send(message);
+                Console.WriteLine("Wiadomość poszła w świat");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw;
+            }
         }
     }
 }
