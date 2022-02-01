@@ -4,13 +4,13 @@
         @if (ViewData["Admin"] != null)
         {
             <li>
-                @Html.ActionLink("Zarządzaj kategoriami", "Index", "CategoriesAdmin")
-            </li>
-            <li>
                 @Html.ActionLink("Zarządzaj produktami", "Index", "ProductsAdmin")
             </li>
             <li>
-                @Html.ActionLink("Zarządzaj użytkownikami", "Index", "ProductsAdmin")
+                @Html.ActionLink("Zarządzaj zamówieniami", "Index", "OrdersAdmin")
+            </li>
+            <li>
+                @Html.ActionLink("Zarządzaj użytkownikami", "Index", "UsersAdmin")
             </li>
         }
         else

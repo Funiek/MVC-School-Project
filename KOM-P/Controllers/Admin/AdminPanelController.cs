@@ -177,7 +177,7 @@ namespace KOM_P.Controllers.Admin
             MailMessage message = new MailMessage()
             {
                 From = fromMailAddress,
-                Subject = "Zespół PanDa3 pozdrawia",
+                Subject = "Zespół PanDa3 pozdrawia!",
                 Body = body,
                 IsBodyHtml = true
             };

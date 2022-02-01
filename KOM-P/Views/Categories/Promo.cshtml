@@ -24,12 +24,15 @@
                             @Html.Raw($"{promoProduct.price.Price.ToString()}&nbsp;{promoProduct.price.Description}")
                         </div>
                         <div class="product-special-price">
-                            99,99&nbsp;PLN
+                            @if (promoProduct.product.HavePromoPrice == true)
+                            {
+                                @Html.Raw($"99,99&nbsp;{promoProduct.price.Description}")
+                            }
+                            else @Html.Raw("&nbsp;")
                         </div>
                     </div>
                 </div>
             }
         </div>
     </div>
-    <div style="padding-left:20px;padding-right:20px;" class="float-left">@Html.ActionLink("TYMCZASOWE MIEJSCE NA PDF", "GeneratePDF", "Categories", new { id = ViewData["CategoryId"] }, new { @class = "btn add-to-cart-btn effect01" })</div>
 </div>

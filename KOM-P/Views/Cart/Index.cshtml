@@ -58,7 +58,11 @@
                             @Html.Raw($"{promoProduct.price.Price.ToString()}&nbsp;{promoProduct.price.Description}")
                         </div>
                         <div class="product-special-price">
-                            99,99&nbsp;
+                            @if (promoProduct.product.HavePromoPrice == true)
+                            {
+                                @Html.Raw($"99,99&nbsp;{promoProduct.price.Description}")
+                            }
+                            else @Html.Raw("&nbsp;")
                         </div>
                     </div>
                 </div>

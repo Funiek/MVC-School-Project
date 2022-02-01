@@ -27,9 +27,9 @@
                         </div>
                         
                         <div class="product-special-price">
-                            @if(promoProduct.product.HavePromoPrice == true)
+                            @if (promoProduct.product.HavePromoPrice == true)
                             {
-                                @Html.Raw("99,99&nbsp;PLN")
+                                @Html.Raw($"99,99&nbsp;{promoProduct.price.Description}")
                             }
                             else @Html.Raw("&nbsp;")
                         </div>
