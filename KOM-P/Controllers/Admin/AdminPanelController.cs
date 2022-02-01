@@ -52,29 +52,79 @@ namespace KOM_P.Controllers.Admin
 
             XmlNode item = doc.SelectSingleNode("ArrayOfExchangeRatesTable").SelectSingleNode("ExchangeRatesTable").SelectSingleNode("Rates");
 
-            List<NBPData> list = new List<NBPData>();
+            //List<NBPData> list = new List<NBPData>();
+
+            Dictionary<string, string> list = new Dictionary<string, string>();
 
             foreach (XmlNode itemNode in item.ChildNodes)
             {
-                NBPData nbp = new NBPData();
-                nbp.currency = itemNode.SelectSingleNode("Code").InnerText;
-                nbp.price = itemNode.SelectSingleNode("Mid").InnerText;
-                list.Add(nbp);
+                //NBPData nbp = new NBPData();
+                string currency = itemNode.SelectSingleNode("Code").InnerText;
+                string price = itemNode.SelectSingleNode("Mid").InnerText;
+                list.Add(currency, price);
             }
-
-            foreach (NBPData nbp in list)
-            {
-                Console.WriteLine(nbp.currency + " " + nbp.price);
-            }
-
+            
             List<Product> products = await _db.Product.ToListAsync();
 
             foreach(Product product in products)
             {
+                bool[] priceSet = new bool[2];
                 List<ProductPrice> priceList = _db.ProductPrice.Where(p => p.ProductId == product.ProductId).ToList();
-                foreach(ProductPrice price in priceList)
+                ProductPrice pricePLN = _db.ProductPrice.Where(p => p.ProductId == product.ProductId && p.Description.Equals("PLN")).FirstOrDefault();
+                foreach (ProductPrice price in priceList)
                 {
+                    if(price.Description.Equals("GBP"))
+                    {
+                        priceSet[0] = true;
+                        double priceGBP = Math.Round(double.Parse(list["GBP"].Replace('.',',')), 2);
+                        price.Price = Math.Round(pricePLN.Price / (decimal)priceGBP, 2);
+                        _db.ProductPrice.Update(price);
+                        _db.SaveChanges();
 
+                    }
+                    else
+                    {
+                        priceSet[0] = false;
+                    }
+
+                    if (price.Description.Equals("EUR"))
+                    {
+                        priceSet[1] = true;
+                        double priceEUR = Math.Round(double.Parse(list["EUR"].Replace('.', ',')), 2);
+                        price.Price = Math.Round(pricePLN.Price / (decimal)priceEUR, 2);
+                        _db.ProductPrice.Update(price);
+                        _db.SaveChanges();
+                    }
+                    else
+                    {
+                        priceSet[1] = false;
+                    }
+                }
+
+                for(int i=0; i<priceSet.Length; i++)
+                {
+                    if(!priceSet[i])
+                    {
+                        ProductPrice productPrice = new ProductPrice();
+                        productPrice.Product = product;
+
+                        if(i==0)
+                        {
+                            productPrice.Description = "GBP";
+                            double priceGBP = Math.Round(double.Parse(list["GBP"].Replace('.', ',')), 2);
+                            productPrice.Price = Math.Round(pricePLN.Price / (decimal)priceGBP, 2);
+
+                        }
+                        else if(i==1)
+                        {
+                            productPrice.Description = "EUR";
+                            double priceEUR = Math.Round(double.Parse(list["EUR"].Replace('.', ',')), 2);
+                            productPrice.Price = Math.Round(pricePLN.Price / (decimal)priceEUR, 2);
+                        }
+
+                        _db.ProductPrice.Add(productPrice);
+                        _db.SaveChanges();
+                    }
                 }
             }
 
