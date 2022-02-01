@@ -136,9 +136,8 @@ namespace KOM_P.Controllers.Admin
         // POST: ProductsAdmin/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost, ActionName("Edit")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CategoryId,DescriptionId,DateOfAdding,ForPromo,Visible,SKU,Name,Price")] Product product)
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, Product product)
         {
             ViewData["Admin"] = "Tak";
             if (id != product.ProductId)
