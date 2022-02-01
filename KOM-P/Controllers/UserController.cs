@@ -31,6 +31,11 @@ namespace KOM_P.Controllers
             public int itemsOnPage { get; set; }
         }
 
+        public class CheckOrdersViewModel
+        {
+            public List<Order> orders { get; set; }
+        }
+
         [Required(ErrorMessage = "To pole jest wymagane!")]
         [StringLength(30)]
         public String Login { get; set; }
@@ -201,6 +206,18 @@ namespace KOM_P.Controllers
             SessionService.SetSession(HttpContext.Session, "ItemsOnPage", itemsOnPage);
 
             return RedirectToAction("Details");
+        }
+
+        public IActionResult CheckOrders()
+        {
+            CheckOrdersViewModel model = new CheckOrdersViewModel();
+            int userID = SessionService.GetSession<int>(HttpContext.Session, "UserID");
+            User user = _db.User.FirstOrDefault(m => m.UserId == userID);
+            _db.Entry(user).Collection(c => c.Order).Load();
+            List<Order> orders = user.Order.ToList();
+            model.orders = orders;
+            
+            return View(model);
         }
     }
 }
